@@ -1,18 +1,21 @@
 package de.letsbuildacompiler.compiler;
 
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
-import de.letsbuildacompiler.parser.DemoParser.AdditionContext;
+import de.letsbuildacompiler.parser.DemoParser.PlusContext;
+import de.letsbuildacompiler.parser.DemoParser.ZahlContext;
 
 public class MyVisitor extends DemoBaseVisitor<String> {
+	
 	@Override
-	public String visitAddition(AdditionContext ctx) {
-		visitChildren(ctx);
-		if (ctx.getChildCount() == 1) {
-			System.out.println(ctx.getChild(0));
-		} else {
-			System.out.println(ctx.getChild(2));
-			System.out.println("addition");
-		}
+	public String visitPlus(PlusContext ctx) {
+		System.out.println(ctx.rechts.getText());
+		System.out.println("addition");
+		return null;
+	}
+	
+	@Override
+	public String visitZahl(ZahlContext ctx) {
+		System.out.println(ctx.zahl.getText());
 		return null;
 	}
 }

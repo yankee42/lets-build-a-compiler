@@ -45,17 +45,37 @@ public class DemoParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class AdditionContext extends ParserRuleContext {
-		public TerminalNode ZAHL() { return getToken(DemoParser.ZAHL, 0); }
-		public AdditionContext addition() {
-			return getRuleContext(AdditionContext.class,0);
-		}
 		public AdditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addition; }
+	 
+		public AdditionContext() { }
+		public void copyFrom(AdditionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PlusContext extends AdditionContext {
+		public AdditionContext links;
+		public Token rechts;
+		public TerminalNode ZAHL() { return getToken(DemoParser.ZAHL, 0); }
+		public AdditionContext addition() {
+			return getRuleContext(AdditionContext.class,0);
+		}
+		public PlusContext(AdditionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitAddition(this);
+			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitPlus(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ZahlContext extends AdditionContext {
+		public Token zahl;
+		public TerminalNode ZAHL() { return getToken(DemoParser.ZAHL, 0); }
+		public ZahlContext(AdditionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitZahl(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -76,7 +96,11 @@ public class DemoParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(3); match(ZAHL);
+			_localctx = new ZahlContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
+			setState(3); ((ZahlContext)_localctx).zahl = match(ZAHL);
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(10);
@@ -88,12 +112,13 @@ public class DemoParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new AdditionContext(_parentctx, _parentState);
+					_localctx = new PlusContext(new AdditionContext(_parentctx, _parentState));
+					((PlusContext)_localctx).links = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_addition);
 					setState(5);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 					setState(6); match(1);
-					setState(7); match(ZAHL);
+					setState(7); ((PlusContext)_localctx).rechts = match(ZAHL);
 					}
 					} 
 				}
