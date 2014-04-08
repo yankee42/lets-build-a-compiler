@@ -10,12 +10,12 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitPlus(PlusContext ctx) {
 		return visitChildren(ctx) + "\n" +
 				ctx.rechts.getText() + "\n" +
-				"addition";
+				"iadd";
 	}
 	
 	@Override
 	public String visitZahl(ZahlContext ctx) {
-		return ctx.zahl.getText();
+		return "ldc " + ctx.zahl.getText();
 	}
 	
 	@Override
