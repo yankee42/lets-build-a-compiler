@@ -17,7 +17,7 @@ public class Main {
 		DemoParser parser = new DemoParser(tokens);
 		
 		ParseTree tree = parser.addition();
-		new MyVisitor().visit(tree);
+		System.out.println(new MyVisitor().visit(tree));
 	}
 	
 }

@@ -8,15 +8,24 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitPlus(PlusContext ctx) {
-		visitChildren(ctx);
-		System.out.println(ctx.rechts.getText());
-		System.out.println("addition");
-		return null;
+		return visitChildren(ctx) + "\n" +
+				ctx.rechts.getText() + "\n" +
+				"addition";
 	}
 	
 	@Override
 	public String visitZahl(ZahlContext ctx) {
-		System.out.println(ctx.zahl.getText());
-		return null;
+		return ctx.zahl.getText();
+	}
+	
+	@Override
+	protected String aggregateResult(String aggregate, String nextResult) {
+		if (aggregate == null) {
+			return nextResult;
+		}
+		if (nextResult == null) {
+			return aggregate;
+		}
+		return aggregate + "\n" + nextResult;
 	}
 }
