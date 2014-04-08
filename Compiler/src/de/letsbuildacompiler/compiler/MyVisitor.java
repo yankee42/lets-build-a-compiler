@@ -1,7 +1,9 @@
 package de.letsbuildacompiler.compiler;
 
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
+import de.letsbuildacompiler.parser.DemoParser.DivContext;
 import de.letsbuildacompiler.parser.DemoParser.MinusContext;
+import de.letsbuildacompiler.parser.DemoParser.MultContext;
 import de.letsbuildacompiler.parser.DemoParser.NumberContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
@@ -27,6 +29,20 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		return visitChildren(ctx) + "\n" +
 				"ldc " + ctx.right.getText() + "\n" +
 				"isub";
+	}
+	
+	@Override
+	public String visitDiv(DivContext ctx) {
+		return visitChildren(ctx) + "\n" +
+				"ldc " + ctx.right.getText() + "\n" +
+				"idiv";
+	}
+	
+	@Override
+	public String visitMult(MultContext ctx) {
+		return visitChildren(ctx) + "\n" +
+				"ldc " + ctx.right.getText() + "\n" +
+				"imul";
 	}
 	
 	@Override

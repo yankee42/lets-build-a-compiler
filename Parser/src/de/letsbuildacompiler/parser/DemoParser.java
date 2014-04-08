@@ -15,9 +15,10 @@ public class DemoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__4=1, T__3=2, T__2=3, T__1=4, T__0=5, NUMBER=6, WHITESPACE=7;
+		T__6=1, T__5=2, T__4=3, T__3=4, T__2=5, T__1=6, T__0=7, NUMBER=8, WHITESPACE=9;
 	public static final String[] tokenNames = {
-		"<INVALID>", "')'", "'println('", "'+'", "'-'", "';'", "NUMBER", "WHITESPACE"
+		"<INVALID>", "')'", "'println('", "'+'", "'-'", "'*'", "'/'", "';'", "NUMBER", 
+		"WHITESPACE"
 	};
 	public static final int
 		RULE_program = 0, RULE_expression = 1, RULE_println = 2;
@@ -76,7 +77,7 @@ public class DemoParser extends Parser {
 				{
 				{
 				setState(6); println();
-				setState(7); match(5);
+				setState(7); match(7);
 				}
 				}
 				setState(11); 
@@ -105,6 +106,20 @@ public class DemoParser extends Parser {
 		public ExpressionContext() { }
 		public void copyFrom(ExpressionContext ctx) {
 			super.copyFrom(ctx);
+		}
+	}
+	public static class MultContext extends ExpressionContext {
+		public ExpressionContext left;
+		public Token right;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public MultContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitMult(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PlusContext extends ExpressionContext {
@@ -145,6 +160,20 @@ public class DemoParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class DivContext extends ExpressionContext {
+		public ExpressionContext left;
+		public Token right;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public DivContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitDiv(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExpressionContext expression() throws RecognitionException {
 		return expression(0);
@@ -169,7 +198,7 @@ public class DemoParser extends Parser {
 			setState(14); ((NumberContext)_localctx).number = match(NUMBER);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(24);
+			setState(30);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
@@ -177,7 +206,7 @@ public class DemoParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(22);
+					setState(28);
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
@@ -185,7 +214,7 @@ public class DemoParser extends Parser {
 						((PlusContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(16);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(17); match(3);
 						setState(18); ((PlusContext)_localctx).right = match(NUMBER);
 						}
@@ -197,15 +226,39 @@ public class DemoParser extends Parser {
 						((MinusContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(19);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(20); match(4);
 						setState(21); ((MinusContext)_localctx).right = match(NUMBER);
+						}
+						break;
+
+					case 3:
+						{
+						_localctx = new DivContext(new ExpressionContext(_parentctx, _parentState));
+						((DivContext)_localctx).left = _prevctx;
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(22);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(23); match(6);
+						setState(24); ((DivContext)_localctx).right = match(NUMBER);
+						}
+						break;
+
+					case 4:
+						{
+						_localctx = new MultContext(new ExpressionContext(_parentctx, _parentState));
+						((MultContext)_localctx).left = _prevctx;
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(25);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(26); match(5);
+						setState(27); ((MultContext)_localctx).right = match(NUMBER);
 						}
 						break;
 					}
 					} 
 				}
-				setState(26);
+				setState(32);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			}
@@ -244,9 +297,9 @@ public class DemoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27); match(2);
-			setState(28); ((PrintlnContext)_localctx).argument = expression(0);
-			setState(29); match(1);
+			setState(33); match(2);
+			setState(34); ((PrintlnContext)_localctx).argument = expression(0);
+			setState(35); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -268,24 +321,29 @@ public class DemoParser extends Parser {
 	}
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return precpred(_ctx, 3);
+		case 0: return precpred(_ctx, 5);
 
-		case 1: return precpred(_ctx, 2);
+		case 1: return precpred(_ctx, 4);
+
+		case 2: return precpred(_ctx, 3);
+
+		case 3: return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t\"\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13(\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\3\2\3\2\3\2\6\2\f\n\2\r\2\16\2\r\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\7\3\31\n\3\f\3\16\3\34\13\3\3\4\3\4\3\4\3\4\3\4\2\3\4\5\2\4"+
-		"\6\2\2!\2\13\3\2\2\2\4\17\3\2\2\2\6\35\3\2\2\2\b\t\5\6\4\2\t\n\7\7\2\2"+
-		"\n\f\3\2\2\2\13\b\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\3\3"+
-		"\2\2\2\17\20\b\3\1\2\20\21\7\b\2\2\21\32\3\2\2\2\22\23\f\5\2\2\23\24\7"+
-		"\5\2\2\24\31\7\b\2\2\25\26\f\4\2\2\26\27\7\6\2\2\27\31\7\b\2\2\30\22\3"+
-		"\2\2\2\30\25\3\2\2\2\31\34\3\2\2\2\32\30\3\2\2\2\32\33\3\2\2\2\33\5\3"+
-		"\2\2\2\34\32\3\2\2\2\35\36\7\4\2\2\36\37\5\4\3\2\37 \7\3\2\2 \7\3\2\2"+
-		"\2\5\r\30\32";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3\37\n\3\f\3\16\3\"\13\3\3\4\3\4"+
+		"\3\4\3\4\3\4\2\3\4\5\2\4\6\2\2)\2\13\3\2\2\2\4\17\3\2\2\2\6#\3\2\2\2\b"+
+		"\t\5\6\4\2\t\n\7\t\2\2\n\f\3\2\2\2\13\b\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2"+
+		"\2\r\16\3\2\2\2\16\3\3\2\2\2\17\20\b\3\1\2\20\21\7\n\2\2\21 \3\2\2\2\22"+
+		"\23\f\7\2\2\23\24\7\5\2\2\24\37\7\n\2\2\25\26\f\6\2\2\26\27\7\6\2\2\27"+
+		"\37\7\n\2\2\30\31\f\5\2\2\31\32\7\b\2\2\32\37\7\n\2\2\33\34\f\4\2\2\34"+
+		"\35\7\7\2\2\35\37\7\n\2\2\36\22\3\2\2\2\36\25\3\2\2\2\36\30\3\2\2\2\36"+
+		"\33\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!\5\3\2\2\2\" \3\2\2\2#"+
+		"$\7\4\2\2$%\5\4\3\2%&\7\3\2\2&\7\3\2\2\2\5\r\36 ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
