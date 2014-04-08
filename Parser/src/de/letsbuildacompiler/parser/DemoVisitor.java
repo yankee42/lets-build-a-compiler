@@ -19,6 +19,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitPlus(@NotNull DemoParser.PlusContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#Minus}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMinus(@NotNull DemoParser.MinusContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#println}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -3,6 +3,7 @@ grammar Demo;
 program: (println ';')+;
 
 expression: left=expression '+' right=NUMBER #Plus
+          | left=expression '-' right=NUMBER #Minus
           | number=NUMBER #Number
           ;
 

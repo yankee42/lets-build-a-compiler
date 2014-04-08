@@ -1,6 +1,7 @@
 package de.letsbuildacompiler.compiler;
 
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
+import de.letsbuildacompiler.parser.DemoParser.MinusContext;
 import de.letsbuildacompiler.parser.DemoParser.NumberContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
@@ -19,6 +20,13 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		return visitChildren(ctx) + "\n" +
 			"ldc " + ctx.right.getText() + "\n" +
 			"iadd";
+	}
+	
+	@Override
+	public String visitMinus(MinusContext ctx) {
+		return visitChildren(ctx) + "\n" +
+				"ldc " + ctx.right.getText() + "\n" +
+				"isub";
 	}
 	
 	@Override
