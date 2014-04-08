@@ -9,3 +9,4 @@ addition: links=addition '+' rechts=ZAHL #Plus
 println: 'println(' argument=addition ')' ;
 
 ZAHL: [0-9]+;
+WHITESPACE: [ \t\n\r]+ -> skip;

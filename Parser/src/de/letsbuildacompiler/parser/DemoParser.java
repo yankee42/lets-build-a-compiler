@@ -15,9 +15,9 @@ public class DemoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__3=1, T__2=2, T__1=3, T__0=4, ZAHL=5;
+		T__3=1, T__2=2, T__1=3, T__0=4, ZAHL=5, WHITESPACE=6;
 	public static final String[] tokenNames = {
-		"<INVALID>", "')'", "'println('", "'+'", "';'", "ZAHL"
+		"<INVALID>", "')'", "'println('", "'+'", "';'", "ZAHL", "WHITESPACE"
 	};
 	public static final int
 		RULE_program = 0, RULE_addition = 1, RULE_println = 2;
@@ -243,7 +243,7 @@ public class DemoParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\7\37\4\2\t\2\4\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\b\37\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\3\2\3\2\3\2\6\2\f\n\2\r\2\16\2\r\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\7\3\26\n\3\f\3\16\3\31\13\3\3\4\3\4\3\4\3\4\3\4\2\3\4\5\2\4\6\2\2\35"+
 		"\2\13\3\2\2\2\4\17\3\2\2\2\6\32\3\2\2\2\b\t\5\6\4\2\t\n\7\6\2\2\n\f\3"+
