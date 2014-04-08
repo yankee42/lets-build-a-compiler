@@ -1,9 +1,9 @@
 package de.letsbuildacompiler.compiler;
 
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
+import de.letsbuildacompiler.parser.DemoParser.NumberContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
-import de.letsbuildacompiler.parser.DemoParser.ZahlContext;
 
 public class MyVisitor extends DemoBaseVisitor<String> {
 	
@@ -17,13 +17,13 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitPlus(PlusContext ctx) {
 		return visitChildren(ctx) + "\n" +
-			"ldc " + ctx.rechts.getText() + "\n" +
+			"ldc " + ctx.right.getText() + "\n" +
 			"iadd";
 	}
 	
 	@Override
-	public String visitZahl(ZahlContext ctx) {
-		return "ldc " + ctx.zahl.getText();
+	public String visitNumber(NumberContext ctx) {
+		return "ldc " + ctx.number.getText();
 	}
 	
 	@Override

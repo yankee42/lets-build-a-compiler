@@ -15,14 +15,14 @@ public class DemoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__3=1, T__2=2, T__1=3, T__0=4, ZAHL=5, WHITESPACE=6;
+		T__3=1, T__2=2, T__1=3, T__0=4, NUMBER=5, WHITESPACE=6;
 	public static final String[] tokenNames = {
-		"<INVALID>", "')'", "'println('", "'+'", "';'", "ZAHL", "WHITESPACE"
+		"<INVALID>", "')'", "'println('", "'+'", "';'", "NUMBER", "WHITESPACE"
 	};
 	public static final int
-		RULE_program = 0, RULE_addition = 1, RULE_println = 2;
+		RULE_program = 0, RULE_expression = 1, RULE_println = 2;
 	public static final String[] ruleNames = {
-		"program", "addition", "println"
+		"program", "expression", "println"
 	};
 
 	@Override
@@ -96,63 +96,63 @@ public class DemoParser extends Parser {
 		return _localctx;
 	}
 
-	public static class AdditionContext extends ParserRuleContext {
-		public AdditionContext(ParserRuleContext parent, int invokingState) {
+	public static class ExpressionContext extends ParserRuleContext {
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_addition; }
+		@Override public int getRuleIndex() { return RULE_expression; }
 	 
-		public AdditionContext() { }
-		public void copyFrom(AdditionContext ctx) {
+		public ExpressionContext() { }
+		public void copyFrom(ExpressionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class PlusContext extends AdditionContext {
-		public AdditionContext links;
-		public Token rechts;
-		public TerminalNode ZAHL() { return getToken(DemoParser.ZAHL, 0); }
-		public AdditionContext addition() {
-			return getRuleContext(AdditionContext.class,0);
+	public static class PlusContext extends ExpressionContext {
+		public ExpressionContext left;
+		public Token right;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public PlusContext(AdditionContext ctx) { copyFrom(ctx); }
+		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public PlusContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitPlus(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ZahlContext extends AdditionContext {
-		public Token zahl;
-		public TerminalNode ZAHL() { return getToken(DemoParser.ZAHL, 0); }
-		public ZahlContext(AdditionContext ctx) { copyFrom(ctx); }
+	public static class NumberContext extends ExpressionContext {
+		public Token number;
+		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public NumberContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitZahl(this);
+			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitNumber(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final AdditionContext addition() throws RecognitionException {
-		return addition(0);
+	public final ExpressionContext expression() throws RecognitionException {
+		return expression(0);
 	}
 
-	private AdditionContext addition(int _p) throws RecognitionException {
+	private ExpressionContext expression(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		AdditionContext _localctx = new AdditionContext(_ctx, _parentState);
-		AdditionContext _prevctx = _localctx;
+		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
+		ExpressionContext _prevctx = _localctx;
 		int _startState = 2;
-		enterRecursionRule(_localctx, 2, RULE_addition, _p);
+		enterRecursionRule(_localctx, 2, RULE_expression, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			_localctx = new ZahlContext(_localctx);
+			_localctx = new NumberContext(_localctx);
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(14); ((ZahlContext)_localctx).zahl = match(ZAHL);
+			setState(14); ((NumberContext)_localctx).number = match(NUMBER);
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(21);
@@ -164,13 +164,13 @@ public class DemoParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new PlusContext(new AdditionContext(_parentctx, _parentState));
-					((PlusContext)_localctx).links = _prevctx;
-					pushNewRecursionContext(_localctx, _startState, RULE_addition);
+					_localctx = new PlusContext(new ExpressionContext(_parentctx, _parentState));
+					((PlusContext)_localctx).left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_expression);
 					setState(16);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 					setState(17); match(3);
-					setState(18); ((PlusContext)_localctx).rechts = match(ZAHL);
+					setState(18); ((PlusContext)_localctx).right = match(NUMBER);
 					}
 					} 
 				}
@@ -192,9 +192,9 @@ public class DemoParser extends Parser {
 	}
 
 	public static class PrintlnContext extends ParserRuleContext {
-		public AdditionContext argument;
-		public AdditionContext addition() {
-			return getRuleContext(AdditionContext.class,0);
+		public ExpressionContext argument;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
 		public PrintlnContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -214,7 +214,7 @@ public class DemoParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(24); match(2);
-			setState(25); ((PrintlnContext)_localctx).argument = addition(0);
+			setState(25); ((PrintlnContext)_localctx).argument = expression(0);
 			setState(26); match(1);
 			}
 		}
@@ -231,11 +231,11 @@ public class DemoParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 1: return addition_sempred((AdditionContext)_localctx, predIndex);
+		case 1: return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean addition_sempred(AdditionContext _localctx, int predIndex) {
+	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: return precpred(_ctx, 2);
 		}

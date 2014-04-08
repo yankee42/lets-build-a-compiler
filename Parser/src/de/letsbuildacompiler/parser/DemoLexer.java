@@ -15,17 +15,17 @@ public class DemoLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__3=1, T__2=2, T__1=3, T__0=4, ZAHL=5, WHITESPACE=6;
+		T__3=1, T__2=2, T__1=3, T__0=4, NUMBER=5, WHITESPACE=6;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
 
 	public static final String[] tokenNames = {
 		"<INVALID>",
-		"')'", "'println('", "'+'", "';'", "ZAHL", "WHITESPACE"
+		"')'", "'println('", "'+'", "';'", "NUMBER", "WHITESPACE"
 	};
 	public static final String[] ruleNames = {
-		"T__3", "T__2", "T__1", "T__0", "ZAHL", "WHITESPACE"
+		"T__3", "T__2", "T__1", "T__0", "NUMBER", "WHITESPACE"
 	};
 
 
