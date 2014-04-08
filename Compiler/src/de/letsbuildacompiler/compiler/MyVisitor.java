@@ -8,6 +8,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitPlus(PlusContext ctx) {
+		visitChildren(ctx);
 		System.out.println(ctx.rechts.getText());
 		System.out.println("addition");
 		return null;
