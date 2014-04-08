@@ -9,7 +9,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitPlus(PlusContext ctx) {
 		return visitChildren(ctx) + "\n" +
-				ctx.rechts.getText() + "\n" +
+				"ldc " + ctx.rechts.getText() + "\n" +
 				"iadd";
 	}
 	
