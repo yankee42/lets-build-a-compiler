@@ -66,6 +66,7 @@ public class CompilerTest {
 				{"println(8/2*4);", "16" + System.lineSeparator()},
 				{"println(2+3*3);", "11" + System.lineSeparator()},
 				{"println(9-2*3);", "3" + System.lineSeparator()},
+				{"println(8-2+5);", "11" + System.lineSeparator()},
 		};
 	}
 
