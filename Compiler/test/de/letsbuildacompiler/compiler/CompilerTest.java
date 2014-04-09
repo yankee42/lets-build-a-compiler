@@ -1,14 +1,15 @@
 package de.letsbuildacompiler.compiler;
 
+import jasmin.ClassFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
-
-import jasmin.ClassFile;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.testng.Assert;
@@ -79,7 +80,9 @@ public class CompilerTest {
 		ClassFile classFile = new ClassFile();
 		classFile.readJasmin(new StringReader(code), "", false);
 		Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
-		classFile.write(Files.newOutputStream(outputPath));
+		try(OutputStream output = Files.newOutputStream(outputPath)) {
+			classFile.write(output);
+		}
 		return runJavaClass(tempDir, classFile.getClassName());
 	}
 
