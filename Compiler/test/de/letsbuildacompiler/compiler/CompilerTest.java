@@ -54,7 +54,8 @@ public class CompilerTest {
 		Assert.assertEquals(actualOutput, expectedText);
 	}
 	
-	@Test(expectedExceptions = UndeclaredVariableException.class)
+	@Test(expectedExceptions = UndeclaredVariableException.class,
+			expectedExceptionsMessageRegExp = "1:8 undeclared variable <x>")
 	public void compilingCode_throwsUndeclaredVariableException_ifVariableIsUndefined() throws Exception {
 		// execution
 		compileAndRun("println(x);");
