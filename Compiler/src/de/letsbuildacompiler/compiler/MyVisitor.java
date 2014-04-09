@@ -3,6 +3,8 @@ package de.letsbuildacompiler.compiler;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.antlr.v4.runtime.Token;
+
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
@@ -64,16 +66,20 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitAssignment(AssignmentContext ctx) {
 		return visit(ctx.expr) + "\n" +
-				"istore " + variables.get(ctx.varName.getText());
+				"istore " + requireVariableIndex(ctx.varName);
 	}
 	
 	@Override
 	public String visitVariable(VariableContext ctx) {
-		Integer varIndex = variables.get(ctx.varName.getText());
+		return "iload " + requireVariableIndex(ctx.varName);
+	}
+	
+	private int requireVariableIndex(Token varNameToken) {
+		Integer varIndex = variables.get(varNameToken.getText());
 		if (varIndex == null) {
-			throw new UndeclaredVariableException(ctx.varName);
+			throw new UndeclaredVariableException(varNameToken);
 		}
-		return "iload " + varIndex;
+		return varIndex;
 	}
 	
 	@Override
