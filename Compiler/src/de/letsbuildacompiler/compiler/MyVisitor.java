@@ -1,14 +1,22 @@
 package de.letsbuildacompiler.compiler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
+import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
 import de.letsbuildacompiler.parser.DemoParser.MinusContext;
 import de.letsbuildacompiler.parser.DemoParser.MultContext;
 import de.letsbuildacompiler.parser.DemoParser.NumberContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
+import de.letsbuildacompiler.parser.DemoParser.VarDeclarationContext;
+import de.letsbuildacompiler.parser.DemoParser.VariableContext;
 
 public class MyVisitor extends DemoBaseVisitor<String> {
+	
+	private Map<String, Integer> variables = new HashMap<>();
 	
 	@Override
 	public String visitPrintln(PrintlnContext ctx) {
@@ -44,6 +52,23 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitNumber(NumberContext ctx) {
 		return "ldc " + ctx.number.getText();
+	}
+	
+	@Override
+	public String visitVarDeclaration(VarDeclarationContext ctx) {
+		variables.put(ctx.varName.getText(), variables.size());
+		return "";
+	}
+	
+	@Override
+	public String visitAssignment(AssignmentContext ctx) {
+		return visit(ctx.expr) + "\n" +
+				"istore " + variables.get(ctx.varName.getText());
+	}
+	
+	@Override
+	public String visitVariable(VariableContext ctx) {
+		return "iload " + variables.get(ctx.varName.getText());
 	}
 	
 	@Override
