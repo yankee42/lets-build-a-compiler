@@ -12,11 +12,25 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(@NotNull DemoParser.StatementContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#Mult}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMult(@NotNull DemoParser.MultContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(@NotNull DemoParser.AssignmentContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#Plus}.
@@ -31,6 +45,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMinus(@NotNull DemoParser.MinusContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#Variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(@NotNull DemoParser.VariableContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#println}.
@@ -52,6 +73,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(@NotNull DemoParser.ProgramContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#Div}.
