@@ -17,7 +17,7 @@ public class DemoParser extends Parser {
 	public static final int
 		T__6=1, T__5=2, T__4=3, T__3=4, T__2=5, T__1=6, T__0=7, NUMBER=8, WHITESPACE=9;
 	public static final String[] tokenNames = {
-		"<INVALID>", "')'", "'println('", "'+'", "'-'", "'*'", "'/'", "';'", "NUMBER", 
+		"<INVALID>", "')'", "'println('", "'+'", "'*'", "'-'", "'/'", "';'", "NUMBER", 
 		"WHITESPACE"
 	};
 	public static final int
@@ -218,13 +218,13 @@ public class DemoParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
-						_localctx = new PlusContext(new ExpressionContext(_parentctx, _parentState));
-						((PlusContext)_localctx).left = _prevctx;
+						_localctx = new MultContext(new ExpressionContext(_parentctx, _parentState));
+						((MultContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(16);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(17); match(3);
-						setState(18); ((PlusContext)_localctx).right = expression(6);
+						setState(17); match(4);
+						setState(18); ((MultContext)_localctx).right = expression(6);
 						}
 						break;
 
@@ -235,7 +235,7 @@ public class DemoParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(19);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(20); match(4);
+						setState(20); match(5);
 						setState(21); ((MinusContext)_localctx).right = expression(5);
 						}
 						break;
@@ -254,13 +254,13 @@ public class DemoParser extends Parser {
 
 					case 4:
 						{
-						_localctx = new MultContext(new ExpressionContext(_parentctx, _parentState));
-						((MultContext)_localctx).left = _prevctx;
+						_localctx = new PlusContext(new ExpressionContext(_parentctx, _parentState));
+						((PlusContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(25);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(26); match(5);
-						setState(27); ((MultContext)_localctx).right = expression(3);
+						setState(26); match(3);
+						setState(27); ((PlusContext)_localctx).right = expression(3);
 						}
 						break;
 					}
@@ -347,9 +347,9 @@ public class DemoParser extends Parser {
 		"\3\4\3\4\3\4\2\3\4\5\2\4\6\2\2)\2\13\3\2\2\2\4\17\3\2\2\2\6#\3\2\2\2\b"+
 		"\t\5\6\4\2\t\n\7\t\2\2\n\f\3\2\2\2\13\b\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2"+
 		"\2\r\16\3\2\2\2\16\3\3\2\2\2\17\20\b\3\1\2\20\21\7\n\2\2\21 \3\2\2\2\22"+
-		"\23\f\7\2\2\23\24\7\5\2\2\24\37\5\4\3\b\25\26\f\6\2\2\26\27\7\6\2\2\27"+
+		"\23\f\7\2\2\23\24\7\6\2\2\24\37\5\4\3\b\25\26\f\6\2\2\26\27\7\7\2\2\27"+
 		"\37\5\4\3\7\30\31\f\5\2\2\31\32\7\b\2\2\32\37\5\4\3\6\33\34\f\4\2\2\34"+
-		"\35\7\7\2\2\35\37\5\4\3\5\36\22\3\2\2\2\36\25\3\2\2\2\36\30\3\2\2\2\36"+
+		"\35\7\5\2\2\35\37\5\4\3\5\36\22\3\2\2\2\36\25\3\2\2\2\36\30\3\2\2\2\36"+
 		"\33\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!\5\3\2\2\2\" \3\2\2\2#"+
 		"$\7\4\2\2$%\5\4\3\2%&\7\3\2\2&\7\3\2\2\2\5\r\36 ";
 	public static final ATN _ATN =
