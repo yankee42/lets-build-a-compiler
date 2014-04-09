@@ -3,6 +3,7 @@ package de.letsbuildacompiler.compiler;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
@@ -68,7 +69,11 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitVariable(VariableContext ctx) {
-		return "iload " + variables.get(ctx.varName.getText());
+		Integer varIndex = variables.get(ctx.varName.getText());
+		if (varIndex == null) {
+			throw new UndeclaredVariableException();
+		}
+		return "iload " + varIndex;
 	}
 	
 	@Override
