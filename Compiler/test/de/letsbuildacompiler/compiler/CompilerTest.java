@@ -56,9 +56,18 @@ public class CompilerTest {
 	
 	@Test(expectedExceptions = UndeclaredVariableException.class,
 			expectedExceptionsMessageRegExp = "1:8 undeclared variable <x>")
-	public void compilingCode_throwsUndeclaredVariableException_ifVariableIsUndefined() throws Exception {
+	public void compilingCode_throwsUndeclaredVariableException_ifReadingUndefinedVariable() throws Exception {
 		// execution
 		compileAndRun("println(x);");
+		
+		// evaluation performed by expected exception
+	}
+	
+	@Test(expectedExceptions = UndeclaredVariableException.class,
+			expectedExceptionsMessageRegExp = "1:0 undeclared variable <x>")
+	public void compilingCode_throwsUndeclaredVariableException_ifWritingUndefinedVariable() throws Exception {
+		// execution
+		compileAndRun("x = 5;");
 		
 		// evaluation performed by expected exception
 	}
