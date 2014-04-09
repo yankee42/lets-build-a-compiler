@@ -18,6 +18,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
+
 public class CompilerTest {
 	private Path tempDir;
 	
@@ -50,6 +52,14 @@ public class CompilerTest {
 		
 		// evaluation
 		Assert.assertEquals(actualOutput, expectedText);
+	}
+	
+	@Test(expectedExceptions = UndeclaredVariableException.class)
+	public void compilingCode_throwsUndeclaredVariableException_ifVariableIsUndefined() throws Exception {
+		// execution
+		compileAndRun("println(x);");
+		
+		// evaluation performed by expected exception
 	}
 	
 	@DataProvider
