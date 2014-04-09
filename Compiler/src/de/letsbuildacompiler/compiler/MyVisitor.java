@@ -20,28 +20,24 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitPlus(PlusContext ctx) {
 		return visitChildren(ctx) + "\n" +
-			"ldc " + ctx.right.getText() + "\n" +
 			"iadd";
 	}
 	
 	@Override
 	public String visitMinus(MinusContext ctx) {
 		return visitChildren(ctx) + "\n" +
-				"ldc " + ctx.right.getText() + "\n" +
 				"isub";
 	}
 	
 	@Override
 	public String visitDiv(DivContext ctx) {
 		return visitChildren(ctx) + "\n" +
-				"ldc " + ctx.right.getText() + "\n" +
 				"idiv";
 	}
 	
 	@Override
 	public String visitMult(MultContext ctx) {
 		return visitChildren(ctx) + "\n" +
-				"ldc " + ctx.right.getText() + "\n" +
 				"imul";
 	}
 	

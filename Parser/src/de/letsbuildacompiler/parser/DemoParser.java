@@ -110,11 +110,13 @@ public class DemoParser extends Parser {
 	}
 	public static class MultContext extends ExpressionContext {
 		public ExpressionContext left;
-		public Token right;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext right;
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
 		public MultContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -124,11 +126,13 @@ public class DemoParser extends Parser {
 	}
 	public static class PlusContext extends ExpressionContext {
 		public ExpressionContext left;
-		public Token right;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext right;
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
 		public PlusContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -138,11 +142,13 @@ public class DemoParser extends Parser {
 	}
 	public static class MinusContext extends ExpressionContext {
 		public ExpressionContext left;
-		public Token right;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext right;
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
 		public MinusContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -162,11 +168,13 @@ public class DemoParser extends Parser {
 	}
 	public static class DivContext extends ExpressionContext {
 		public ExpressionContext left;
-		public Token right;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext right;
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode NUMBER() { return getToken(DemoParser.NUMBER, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
 		public DivContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -216,7 +224,7 @@ public class DemoParser extends Parser {
 						setState(16);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(17); match(3);
-						setState(18); ((PlusContext)_localctx).right = match(NUMBER);
+						setState(18); ((PlusContext)_localctx).right = expression(6);
 						}
 						break;
 
@@ -228,7 +236,7 @@ public class DemoParser extends Parser {
 						setState(19);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(20); match(4);
-						setState(21); ((MinusContext)_localctx).right = match(NUMBER);
+						setState(21); ((MinusContext)_localctx).right = expression(5);
 						}
 						break;
 
@@ -240,7 +248,7 @@ public class DemoParser extends Parser {
 						setState(22);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(23); match(6);
-						setState(24); ((DivContext)_localctx).right = match(NUMBER);
+						setState(24); ((DivContext)_localctx).right = expression(4);
 						}
 						break;
 
@@ -252,7 +260,7 @@ public class DemoParser extends Parser {
 						setState(25);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(26); match(5);
-						setState(27); ((MultContext)_localctx).right = match(NUMBER);
+						setState(27); ((MultContext)_localctx).right = expression(3);
 						}
 						break;
 					}
@@ -339,9 +347,9 @@ public class DemoParser extends Parser {
 		"\3\4\3\4\3\4\2\3\4\5\2\4\6\2\2)\2\13\3\2\2\2\4\17\3\2\2\2\6#\3\2\2\2\b"+
 		"\t\5\6\4\2\t\n\7\t\2\2\n\f\3\2\2\2\13\b\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2"+
 		"\2\r\16\3\2\2\2\16\3\3\2\2\2\17\20\b\3\1\2\20\21\7\n\2\2\21 \3\2\2\2\22"+
-		"\23\f\7\2\2\23\24\7\5\2\2\24\37\7\n\2\2\25\26\f\6\2\2\26\27\7\6\2\2\27"+
-		"\37\7\n\2\2\30\31\f\5\2\2\31\32\7\b\2\2\32\37\7\n\2\2\33\34\f\4\2\2\34"+
-		"\35\7\7\2\2\35\37\7\n\2\2\36\22\3\2\2\2\36\25\3\2\2\2\36\30\3\2\2\2\36"+
+		"\23\f\7\2\2\23\24\7\5\2\2\24\37\5\4\3\b\25\26\f\6\2\2\26\27\7\6\2\2\27"+
+		"\37\5\4\3\7\30\31\f\5\2\2\31\32\7\b\2\2\32\37\5\4\3\6\33\34\f\4\2\2\34"+
+		"\35\7\7\2\2\35\37\5\4\3\5\36\22\3\2\2\2\36\25\3\2\2\2\36\30\3\2\2\2\36"+
 		"\33\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!\5\3\2\2\2\" \3\2\2\2#"+
 		"$\7\4\2\2$%\5\4\3\2%&\7\3\2\2&\7\3\2\2\2\5\r\36 ";
 	public static final ATN _ATN =

@@ -2,10 +2,10 @@ grammar Demo;
 
 program: (println ';')+;
 
-expression: left=expression '+' right=NUMBER #Plus
-          | left=expression '-' right=NUMBER #Minus
-          | left=expression '/' right=NUMBER #Div
-          | left=expression '*' right=NUMBER #Mult
+expression: left=expression '+' right=expression #Plus
+          | left=expression '-' right=expression #Minus
+          | left=expression '/' right=expression #Div
+          | left=expression '*' right=expression #Mult
           | number=NUMBER #Number
           ;
 
