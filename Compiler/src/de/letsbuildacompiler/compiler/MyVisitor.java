@@ -71,7 +71,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitVariable(VariableContext ctx) {
 		Integer varIndex = variables.get(ctx.varName.getText());
 		if (varIndex == null) {
-			throw new UndeclaredVariableException();
+			throw new UndeclaredVariableException(ctx.varName);
 		}
 		return "iload " + varIndex;
 	}
