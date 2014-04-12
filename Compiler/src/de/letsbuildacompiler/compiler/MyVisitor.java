@@ -6,6 +6,7 @@ import java.util.Map;
 import org.antlr.v4.runtime.Token;
 
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
+import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
@@ -59,6 +60,9 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitVarDeclaration(VarDeclarationContext ctx) {
+		if (variables.containsKey(ctx.varName.getText())) {
+			throw new VariableAlreadyDefinedException(ctx.varName);
+		}
 		variables.put(ctx.varName.getText(), variables.size());
 		return "";
 	}

@@ -19,6 +19,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
+import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 
 public class CompilerTest {
 	private Path tempDir;
@@ -68,6 +69,16 @@ public class CompilerTest {
 	public void compilingCode_throwsUndeclaredVariableException_ifWritingUndefinedVariable() throws Exception {
 		// execution
 		compileAndRun("x = 5;");
+		
+		// evaluation performed by expected exception
+	}
+	
+	@Test(expectedExceptions = VariableAlreadyDefinedException.class,
+			expectedExceptionsMessageRegExp = "2:4 variable already defined: <x>")
+	public void compilingCode_throwsVariableAlreadyDefinedException_whenDefiningAlreadyDefinedVariable() throws Exception {
+		// execution
+		compileAndRun("int x;" + System.lineSeparator() +
+				      "int x;");
 		
 		// evaluation performed by expected exception
 	}
