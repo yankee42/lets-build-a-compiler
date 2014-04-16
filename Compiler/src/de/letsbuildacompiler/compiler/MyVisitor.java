@@ -4,17 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
 import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
+import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
+import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
+import de.letsbuildacompiler.parser.DemoParser.MainStatementContext;
 import de.letsbuildacompiler.parser.DemoParser.MinusContext;
 import de.letsbuildacompiler.parser.DemoParser.MultContext;
 import de.letsbuildacompiler.parser.DemoParser.NumberContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
+import de.letsbuildacompiler.parser.DemoParser.ProgramContext;
 import de.letsbuildacompiler.parser.DemoParser.VarDeclarationContext;
 import de.letsbuildacompiler.parser.DemoParser.VariableContext;
 
@@ -76,6 +81,45 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	@Override
 	public String visitVariable(VariableContext ctx) {
 		return "iload " + requireVariableIndex(ctx.varName);
+	}
+	
+	@Override
+	public String visitFunctionCall(FunctionCallContext ctx) {
+		return "invokestatic HelloWorld/" + ctx.funcName.getText() + "()I";
+	}
+	
+	@Override
+	public String visitFunctionDefinition(FunctionDefinitionContext ctx) {
+		return ".method public static " + ctx.funcName.getText() + "()I\n" +
+				".limit locals 100\n" +
+				".limit stack 100\n" +
+				visit(ctx.returnValue) + "\n" +
+				"ireturn\n" +
+				".end method";
+	}
+	
+	@Override
+	public String visitProgram(ProgramContext ctx) {
+		String mainCode = "";
+		String functions = "";
+		for(int i = 0; i < ctx.getChildCount(); ++i) {
+			ParseTree child = ctx.getChild(i);
+			String instructions = visit(child);
+			if (child instanceof MainStatementContext) {
+				mainCode += instructions + "\n";
+			} else {
+				functions += instructions + "\n";
+			}
+		}
+		return functions + "\n" +
+		".method public static main([Ljava/lang/String;)V\n" + 
+		"  .limit stack 100\n" + 
+		"  .limit locals 100\n" + 
+		"  \n" + 
+		 mainCode + "\n" + 
+		"  return\n" + 
+		"  \n" + 
+		".end method";
 	}
 	
 	private int requireVariableIndex(Token varNameToken) {

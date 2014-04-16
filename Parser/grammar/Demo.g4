@@ -1,6 +1,10 @@
 grammar Demo;
 
-program: (statement ';')+;
+program: programPart+ ;
+
+programPart: statement ';'       #MainStatement
+           | functionDefinition  #ProgPartFunctionDefinition
+           ;
 
 statement: println
          | varDeclaration
@@ -13,6 +17,7 @@ expression: left=expression '/' right=expression #Div
           | left=expression '+' right=expression #Plus
           | number=NUMBER #Number
           | varName=IDENTIFIER #Variable
+          | functionCall #funcCallExpression
           ;
 
 varDeclaration: 'int' varName=IDENTIFIER ;
@@ -20,6 +25,10 @@ varDeclaration: 'int' varName=IDENTIFIER ;
 assignment: varName=IDENTIFIER '=' expr=expression;
 
 println: 'println(' argument=expression ')' ;
+
+functionDefinition: 'int' funcName=IDENTIFIER '(' ')' '{' 'return' returnValue=expression ';' '}' ;
+
+functionCall: funcName=IDENTIFIER '(' ')' ; 
 
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
 NUMBER: [0-9]+;

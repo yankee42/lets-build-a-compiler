@@ -1,7 +1,5 @@
 package de.letsbuildacompiler.compiler;
 
-import jasmin.ClassFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +8,8 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+
+import jasmin.ClassFile;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.testng.Assert;
@@ -78,7 +78,7 @@ public class CompilerTest {
 	public void compilingCode_throwsVariableAlreadyDefinedException_whenDefiningAlreadyDefinedVariable() throws Exception {
 		// execution
 		compileAndRun("int x;" + System.lineSeparator() +
-				      "int x;");
+		              "int x;");
 		
 		// evaluation performed by expected exception
 	}
@@ -103,6 +103,8 @@ public class CompilerTest {
 				{"int foo; foo = 42; println(foo);", "42" + System.lineSeparator()},
 				{"int foo; foo = 42; println(foo+2);", "44" + System.lineSeparator()},
 				{"int a; int b; a = 2; b = 5; println(a+b);", "7" + System.lineSeparator()},
+				
+				{"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()}
 		};
 	}
 
