@@ -104,7 +104,14 @@ public class CompilerTest {
 				{"int foo; foo = 42; println(foo+2);", "44" + System.lineSeparator()},
 				{"int a; int b; a = 2; b = 5; println(a+b);", "7" + System.lineSeparator()},
 				
-				{"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()}
+				{"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()},
+				
+				{"int randomNumber() {\n" + 
+						"  int i;\n" + 
+						"  i = 4;\n" + 
+						"  return i;\n" + 
+						"}\n" + 
+						"println(randomNumber());", "4" + System.lineSeparator()}
 		};
 	}
 
