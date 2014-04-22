@@ -90,12 +90,18 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitFunctionDefinition(FunctionDefinitionContext ctx) {
-		return ".method public static " + ctx.funcName.getText() + "()I\n" +
+		Map<String, Integer> oldVariables = variables;
+		variables = new HashMap<>();
+		String statementInstructions = visit(ctx.statements);
+		String result = ".method public static " + ctx.funcName.getText() + "()I\n" +
 				".limit locals 100\n" +
 				".limit stack 100\n" +
+				(statementInstructions == null ? "" : statementInstructions + "\n") +
 				visit(ctx.returnValue) + "\n" +
 				"ireturn\n" +
 				".end method";
+		variables = oldVariables;
+		return result;
 	}
 	
 	@Override

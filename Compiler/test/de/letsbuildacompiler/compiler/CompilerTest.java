@@ -111,7 +111,19 @@ public class CompilerTest {
 						"  i = 4;\n" + 
 						"  return i;\n" + 
 						"}\n" + 
-						"println(randomNumber());", "4" + System.lineSeparator()}
+						"println(randomNumber());", "4" + System.lineSeparator()},
+						
+				{"int randomNumber() {\n" + 
+						"  int i;\n" + 
+						"  i = 4;\n" + 
+						"  return i;\n" + 
+						"}\n" + 
+						"int i;\n" + 
+						"i = 42;\n" + 
+						"println(randomNumber());\n" + 
+						"println(i);",
+							"4" + System.lineSeparator() +
+							"42" + System.lineSeparator()},
 		};
 	}
 

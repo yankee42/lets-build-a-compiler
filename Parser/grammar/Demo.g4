@@ -26,7 +26,9 @@ assignment: varName=IDENTIFIER '=' expr=expression;
 
 println: 'println(' argument=expression ')' ;
 
-functionDefinition: 'int' funcName=IDENTIFIER '(' ')' '{' 'return' returnValue=expression ';' '}' ;
+functionDefinition: 'int' funcName=IDENTIFIER '(' ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
+
+statementList: (statement ';')* ;
 
 functionCall: funcName=IDENTIFIER '(' ')' ; 
 
