@@ -85,15 +85,28 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitFunctionCall(FunctionCallContext ctx) {
-		return "invokestatic HelloWorld/" + ctx.funcName.getText() + "()I";
+		String instructions = "";
+		String argumentsInstructions = visit(ctx.arguments);
+		if (argumentsInstructions != null) {
+			instructions += argumentsInstructions + '\n';
+		}
+		instructions += "invokestatic HelloWorld/" + ctx.funcName.getText() + "(";
+		int numberOfParameters = ctx.arguments.expressions.size();
+		instructions += stringRepeat("I", numberOfParameters);
+		instructions += ")I";
+		return instructions;
 	}
 	
 	@Override
 	public String visitFunctionDefinition(FunctionDefinitionContext ctx) {
 		Map<String, Integer> oldVariables = variables;
 		variables = new HashMap<>();
+		visit(ctx.params);
 		String statementInstructions = visit(ctx.statements);
-		String result = ".method public static " + ctx.funcName.getText() + "()I\n" +
+		String result = ".method public static " + ctx.funcName.getText() + "(";
+		int numberOfParameters = ctx.params.declarations.size();
+		result += stringRepeat("I", numberOfParameters);
+		result += ")I\n" +
 				".limit locals 100\n" +
 				".limit stack 100\n" +
 				(statementInstructions == null ? "" : statementInstructions + "\n") +
@@ -104,6 +117,14 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		return result;
 	}
 	
+	private String stringRepeat(String string, int count) {
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < count; ++i) {
+			result.append(string);
+		}
+		return result.toString();
+	}
+
 	@Override
 	public String visitProgram(ProgramContext ctx) {
 		String mainCode = "";

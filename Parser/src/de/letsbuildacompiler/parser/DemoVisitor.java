@@ -47,11 +47,25 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitProgPartFunctionDefinition(@NotNull DemoParser.ProgPartFunctionDefinitionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#expressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionList(@NotNull DemoParser.ExpressionListContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#Number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNumber(@NotNull DemoParser.NumberContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#parameterDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterDeclaration(@NotNull DemoParser.ParameterDeclarationContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#statementList}.

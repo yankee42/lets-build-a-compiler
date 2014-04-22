@@ -26,11 +26,19 @@ assignment: varName=IDENTIFIER '=' expr=expression;
 
 println: 'println(' argument=expression ')' ;
 
-functionDefinition: 'int' funcName=IDENTIFIER '(' ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
+functionDefinition: 'int' funcName=IDENTIFIER '(' params=parameterDeclaration ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
+
+parameterDeclaration: declarations+=varDeclaration (',' declarations+=varDeclaration)*
+                    |
+                    ;
 
 statementList: (statement ';')* ;
 
-functionCall: funcName=IDENTIFIER '(' ')' ; 
+functionCall: funcName=IDENTIFIER '(' arguments=expressionList ')' ;
+
+expressionList: expressions+=expression (',' expressions+=expression)*
+              |
+              ;
 
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
 NUMBER: [0-9]+;

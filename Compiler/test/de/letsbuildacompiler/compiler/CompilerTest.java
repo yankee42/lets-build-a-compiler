@@ -124,6 +124,11 @@ public class CompilerTest {
 						"println(i);",
 							"4" + System.lineSeparator() +
 							"42" + System.lineSeparator()},
+				{"int add(int a, int b) {\n" + 
+						"  return a+b;\n" + 
+						"}\n" + 
+						"println(add(5,8));",
+						"13" + System.lineSeparator()}
 		};
 	}
 
