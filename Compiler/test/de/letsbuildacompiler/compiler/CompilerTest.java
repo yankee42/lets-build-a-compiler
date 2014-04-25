@@ -1,5 +1,7 @@
 package de.letsbuildacompiler.compiler;
 
+import jasmin.ClassFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import jasmin.ClassFile;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -19,6 +19,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
+import de.letsbuildacompiler.compiler.exceptions.UndefinedFunctionException;
 import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 
 public class CompilerTest {
@@ -83,6 +84,15 @@ public class CompilerTest {
 		// evaluation performed by expected exception
 	}
 	
+	@Test(expectedExceptions = UndefinedFunctionException.class,
+			expectedExceptionsMessageRegExp = "1:8 call to undefined function: <someUndefinedFunction>")
+	public void compilingCode_throwsUndefinedFunctionException_whenCallingUndefinedFunction() throws Exception {
+		// execution
+		compileAndRun("println(someUndefinedFunction());");
+		
+		// evaluation performed by expected exception
+	}
+	
 	@DataProvider
 	public Object[][] provide_code_expectedText() {
 		return new Object[][]{
@@ -124,11 +134,12 @@ public class CompilerTest {
 						"println(i);",
 							"4" + System.lineSeparator() +
 							"42" + System.lineSeparator()},
+							
 				{"int add(int a, int b) {\n" + 
 						"  return a+b;\n" + 
 						"}\n" + 
 						"println(add(5,8));",
-						"13" + System.lineSeparator()}
+						"13" + System.lineSeparator()},
 		};
 	}
 
