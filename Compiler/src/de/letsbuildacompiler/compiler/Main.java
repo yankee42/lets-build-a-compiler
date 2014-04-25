@@ -1,7 +1,5 @@
 package de.letsbuildacompiler.compiler;
 
-import java.util.Set;
-
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,7 +21,7 @@ public class Main {
 		DemoParser parser = new DemoParser(tokens);
 		
 		ParseTree tree = parser.program();
-		Set<String> definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
+		FunctionList definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
 		return createJasminFile(new MyVisitor(definedFunctions).visit(tree));
 	}
 	

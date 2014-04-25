@@ -1,9 +1,7 @@
 package de.letsbuildacompiler.compiler;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -29,14 +27,13 @@ import de.letsbuildacompiler.parser.DemoParser.VariableContext;
 public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	private Map<String, Integer> variables = new HashMap<>();
-	private final Set<String> definedFunctions;
+	private final FunctionList definedFunctions;
 	
-	public MyVisitor(Set<String> definedFunctions) {
+	public MyVisitor(FunctionList definedFunctions) {
 		if (definedFunctions == null) {
-			this.definedFunctions = Collections.emptySet();
-		} else {
-			this.definedFunctions = definedFunctions;
+			throw new NullPointerException("definedFunctions");
 		}
+		this.definedFunctions = definedFunctions;
 	}
 
 	@Override
@@ -97,7 +94,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitFunctionCall(FunctionCallContext ctx) {
-		if (!definedFunctions.contains(ctx.funcName.getText())) {
+		int numberOfParameters = ctx.arguments.expressions.size();
+		if (!definedFunctions.contains(ctx.funcName.getText(), numberOfParameters)) {
 			throw new UndefinedFunctionException(ctx.funcName);
 		}
 		String instructions = "";
@@ -106,7 +104,6 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			instructions += argumentsInstructions + '\n';
 		}
 		instructions += "invokestatic HelloWorld/" + ctx.funcName.getText() + "(";
-		int numberOfParameters = ctx.arguments.expressions.size();
 		instructions += stringRepeat("I", numberOfParameters);
 		instructions += ")I";
 		return instructions;
