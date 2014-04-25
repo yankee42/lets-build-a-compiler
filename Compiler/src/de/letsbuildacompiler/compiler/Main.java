@@ -23,7 +23,7 @@ public class Main {
 		DemoParser parser = new DemoParser(tokens);
 		
 		ParseTree tree = parser.program();
-		Set<String> definedFunctions = new FunctionDefinitionFinder().visit(tree);
+		Set<String> definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
 		return createJasminFile(new MyVisitor(definedFunctions).visit(tree));
 	}
 	

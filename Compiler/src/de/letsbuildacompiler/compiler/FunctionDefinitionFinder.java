@@ -1,30 +1,29 @@
 package de.letsbuildacompiler.compiler;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import de.letsbuildacompiler.compiler.exceptions.FunctionAlreadyDefinedException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
 
-public class FunctionDefinitionFinder extends DemoBaseVisitor<Set<String>> {
-	@Override
-	public Set<String> visitFunctionDefinition(FunctionDefinitionContext ctx) {
-		String functionName = ctx.funcName.getText();
-		return Collections.singleton(functionName);
-	}
+public class FunctionDefinitionFinder {
 	
-	@Override
-	protected Set<String> aggregateResult(Set<String> aggregate,
-			Set<String> nextResult) {
-		if (aggregate == null) {
-			return nextResult;
-		}
-		if (nextResult == null) {
-			return aggregate;
-		}
-		Set<String> merged = new HashSet<>(aggregate);
-		merged.addAll(nextResult);
-		return merged;
+	public static Set<String> findFunctions(ParseTree tree) {
+		final Set<String> definedFunctions = new HashSet<>();
+		new DemoBaseVisitor<Void>() {
+			@Override
+			public Void visitFunctionDefinition(FunctionDefinitionContext ctx) {
+				String functionName = ctx.funcName.getText();
+				if (definedFunctions.contains(functionName)) {
+					throw new FunctionAlreadyDefinedException(ctx.funcName);
+				}
+				definedFunctions.add(functionName);
+				return null;
+			}
+		}.visit(tree);
+		return definedFunctions;
 	}
 }
