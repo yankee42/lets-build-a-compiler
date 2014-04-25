@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import de.letsbuildacompiler.compiler.exceptions.FunctionAlreadyDefinedException;
 import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
 import de.letsbuildacompiler.compiler.exceptions.UndefinedFunctionException;
 import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
@@ -93,6 +94,16 @@ public class CompilerTest {
 		// evaluation performed by expected exception
 	}
 	
+	@Test(expectedExceptions = FunctionAlreadyDefinedException.class,
+			expectedExceptionsMessageRegExp = "2:4 function already defined: <x>")
+	public void compilingCode_throwsFunctionAlreadyDefinedException_whenDefiningFunctionTwice() throws Exception {
+		// execution
+		compileAndRun("int x() { return 42; }\n" +
+					  "int x() { return 42; }");
+		
+		// evaluation performed by expected exception
+	}
+	
 	@DataProvider
 	public Object[][] provide_code_expectedText() {
 		return new Object[][]{
@@ -140,6 +151,13 @@ public class CompilerTest {
 						"}\n" + 
 						"println(add(5,8));",
 						"13" + System.lineSeparator()},
+				
+				{"int x() { return 0; }\n" + 
+						"int x(int a) { return a; }\n" + 
+						"println(x());\n" + 
+						"println(x(42));",
+						"0" + System.lineSeparator() +
+						"42" + System.lineSeparator()},
 		};
 	}
 
