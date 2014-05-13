@@ -68,6 +68,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParameterDeclaration(@NotNull DemoParser.ParameterDeclarationContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(@NotNull DemoParser.BlockContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#statementList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,6 +131,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitProgram(@NotNull DemoParser.ProgramContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#branch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBranch(@NotNull DemoParser.BranchContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#funcCallExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -131,16 +145,16 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFuncCallExpression(@NotNull DemoParser.FuncCallExpressionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#Div}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDiv(@NotNull DemoParser.DivContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link DemoParser#varDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#Div}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDiv(@NotNull DemoParser.DivContext ctx);
 }

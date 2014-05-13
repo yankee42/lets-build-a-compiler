@@ -82,6 +82,14 @@ public class DemoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements D
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitBlock(@NotNull DemoParser.BlockContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitStatementList(@NotNull DemoParser.StatementListContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -146,6 +154,14 @@ public class DemoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements D
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitBranch(@NotNull DemoParser.BranchContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitFuncCallExpression(@NotNull DemoParser.FuncCallExpressionContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -154,7 +170,7 @@ public class DemoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements D
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDiv(@NotNull DemoParser.DivContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -162,5 +178,5 @@ public class DemoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements D
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDiv(@NotNull DemoParser.DivContext ctx) { return visitChildren(ctx); }
 }

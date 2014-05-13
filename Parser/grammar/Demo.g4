@@ -2,14 +2,20 @@ grammar Demo;
 
 program: programPart+ ;
 
-programPart: statement ';'       #MainStatement
+programPart: statement           #MainStatement
            | functionDefinition  #ProgPartFunctionDefinition
            ;
 
-statement: println
-         | varDeclaration
-         | assignment
+statement: println ';'
+         | varDeclaration ';'
+         | assignment ';'
+         | branch
          ;
+
+branch: 'if' '(' condition=expression ')' onTrue=block 'else' onFalse=block
+      ;
+
+block: '{' statement* '}' ;
 
 expression: left=expression '/' right=expression #Div
           | left=expression '*' right=expression #Mult
@@ -32,7 +38,7 @@ parameterDeclaration: declarations+=varDeclaration (',' declarations+=varDeclara
                     |
                     ;
 
-statementList: (statement ';')* ;
+statementList: statement* ;
 
 functionCall: funcName=IDENTIFIER '(' arguments=expressionList ')' ;
 

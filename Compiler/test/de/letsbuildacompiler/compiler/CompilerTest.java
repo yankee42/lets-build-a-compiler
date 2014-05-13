@@ -158,6 +158,18 @@ public class CompilerTest {
 						"println(x(42));",
 						"0" + System.lineSeparator() +
 						"42" + System.lineSeparator()},
+				
+				{"if (0) {\n" + 
+						"  println(81);\n" + 
+						"} else {\n" + 
+						"  println(42);\n" + 
+						"}", "42" + System.lineSeparator()},
+				
+				{"if (1) {\n" + 
+						"  println(81);\n" + 
+						"} else {\n" + 
+						"  println(42);\n" + 
+						"}", "81" + System.lineSeparator()},
 		};
 	}
 
