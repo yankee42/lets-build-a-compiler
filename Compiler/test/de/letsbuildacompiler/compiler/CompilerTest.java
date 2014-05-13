@@ -105,7 +105,7 @@ public class CompilerTest {
 	}
 	
 	@DataProvider
-	public Object[][] provide_code_expectedText() {
+	public Object[][] provide_code_expectedText() throws Exception {
 		return new Object[][]{
 				{"println(1+2);", "3" + System.lineSeparator()},
 				{"println(1+2+42);", "45" + System.lineSeparator()},
@@ -127,50 +127,31 @@ public class CompilerTest {
 				
 				{"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()},
 				
-				{"int randomNumber() {\n" + 
-						"  int i;\n" + 
-						"  i = 4;\n" + 
-						"  return i;\n" + 
-						"}\n" + 
-						"println(randomNumber());", "4" + System.lineSeparator()},
+				{example("function/simple_function"), "4" + System.lineSeparator()},
 						
-				{"int randomNumber() {\n" + 
-						"  int i;\n" + 
-						"  i = 4;\n" + 
-						"  return i;\n" + 
-						"}\n" + 
-						"int i;\n" + 
-						"i = 42;\n" + 
-						"println(randomNumber());\n" + 
-						"println(i);",
+				{example("function/scopes"),
 							"4" + System.lineSeparator() +
 							"42" + System.lineSeparator()},
 							
-				{"int add(int a, int b) {\n" + 
-						"  return a+b;\n" + 
-						"}\n" + 
-						"println(add(5,8));",
+				{example("function/int_parameters"),
 						"13" + System.lineSeparator()},
 				
-				{"int x() { return 0; }\n" + 
-						"int x(int a) { return a; }\n" + 
-						"println(x());\n" + 
-						"println(x(42));",
+				{example("function/overloading"),
 						"0" + System.lineSeparator() +
 						"42" + System.lineSeparator()},
 				
-				{"if (0) {\n" + 
-						"  println(81);\n" + 
-						"} else {\n" + 
-						"  println(42);\n" + 
-						"}", "42" + System.lineSeparator()},
-				
-				{"if (1) {\n" + 
-						"  println(81);\n" + 
-						"} else {\n" + 
-						"  println(42);\n" + 
-						"}", "81" + System.lineSeparator()},
+				{example("branch/if_int_false"), "42" + System.lineSeparator()},
+				{example("branch/if_int_true"), "81" + System.lineSeparator()},
 		};
+	}
+	
+	private static String example(String name) throws Exception {
+		try(InputStream in = CompilerTest.class.getResourceAsStream("/examples/" + name + ".txt")) {
+			if (in == null) {
+				throw new IllegalArgumentException("No such example <" + name + ">");
+			}
+			return new Scanner(in).useDelimiter("\\A").next();
+		}
 	}
 
 	private String compileAndRun(String code) throws Exception {

@@ -1,0 +1,5 @@
+if (0) {
+  println(81);
+} else {
+  println(42);
+}
