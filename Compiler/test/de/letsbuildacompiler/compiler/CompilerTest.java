@@ -49,7 +49,9 @@ public class CompilerTest {
 
 	@Test(dataProvider = "provide_code_expectedText")
 	public void runningCode_outputsExpectedText(
-			String code, String expectedText) throws Exception {
+			String description,
+			String code,
+			String expectedText) throws Exception {
 		// execution
 		String actualOutput = compileAndRun(code);
 		
@@ -107,50 +109,78 @@ public class CompilerTest {
 	@DataProvider
 	public Object[][] provide_code_expectedText() throws Exception {
 		return new Object[][]{
-				{"println(1+2);", "3" + System.lineSeparator()},
-				{"println(1+2+42);", "45" + System.lineSeparator()},
-				{"println(1); println(2);",
+				{"plus",
+					"println(1+2);", "3" + System.lineSeparator()},
+					
+				{"chained plus",
+						"println(1+2+42);", "45" + System.lineSeparator()},
+						
+				{"multiple statements",
+							"println(1); println(2);",
 					"1" + System.lineSeparator() +
 					"2" + System.lineSeparator()},
-				{"println(3-2);", "1" + System.lineSeparator()},
-				{"println(2*3);", "6" + System.lineSeparator()},
-				{"println(6/2);", "3" + System.lineSeparator()},
-				{"println(7/2);", "3" + System.lineSeparator()},
-				{"println(8/2*4);", "16" + System.lineSeparator()},
-				{"println(2+3*3);", "11" + System.lineSeparator()},
-				{"println(9-2*3);", "3" + System.lineSeparator()},
-				{"println(8-2+5);", "11" + System.lineSeparator()},
-				
-				{"int foo; foo = 42; println(foo);", "42" + System.lineSeparator()},
-				{"int foo; foo = 42; println(foo+2);", "44" + System.lineSeparator()},
-				{"int a; int b; a = 2; b = 5; println(a+b);", "7" + System.lineSeparator()},
-				
-				{"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()},
-				
-				{example("function/simple_function"), "4" + System.lineSeparator()},
+					
+				{"minus",
+						"println(3-2);", "1" + System.lineSeparator()},
 						
-				{example("function/scopes"),
-							"4" + System.lineSeparator() +
-							"42" + System.lineSeparator()},
+				{"times",
+						"println(2*3);", "6" + System.lineSeparator()},
 							
-				{example("function/int_parameters"),
-						"13" + System.lineSeparator()},
+				{"divide",
+						"println(6/2);", "3" + System.lineSeparator()},
+						
+				{"divide and truncate",
+						"println(7/2);", "3" + System.lineSeparator()},
+						
+				{"precedence times and divide",
+						"println(8/2*4);", "16" + System.lineSeparator()},
 				
-				{example("function/overloading"),
+				{"precedence plus and times",
+						"println(2+3*3);", "11" + System.lineSeparator()},
+						
+				{"precedence minus and times",
+						"println(9-2*3);", "3" + System.lineSeparator()},
+						
+				{"precedence minus and plus",
+						"println(8-2+5);", "11" + System.lineSeparator()},
+				
+				{"int variable",
+						"int foo; foo = 42; println(foo);", "42" + System.lineSeparator()},
+						
+				{"add var and constant parameter",
+						"int foo; foo = 42; println(foo+2);", "44" + System.lineSeparator()},
+							
+				{"add two vars parameter",
+						"int a; int b; a = 2; b = 5; println(a+b);", "7" + System.lineSeparator()},
+				
+				{"return only function",
+						"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()},
+				
+				example("function/simple_function", "4" + System.lineSeparator()),
+						
+				example("function/scopes",
+							"4" + System.lineSeparator() +
+							"42" + System.lineSeparator()),
+							
+				example("function/int_parameters",
+						"13" + System.lineSeparator()),
+				
+				example("function/overloading",
 						"0" + System.lineSeparator() +
-						"42" + System.lineSeparator()},
+						"42" + System.lineSeparator()),
 				
-				{example("branch/if_int_false"), "42" + System.lineSeparator()},
-				{example("branch/if_int_true"), "81" + System.lineSeparator()},
+				example("branch/if_int_false", "42" + System.lineSeparator()),
+				example("branch/if_int_true", "81" + System.lineSeparator()),
 		};
 	}
 	
-	private static String example(String name) throws Exception {
+	private static String[] example(String name, String expectedResult) throws Exception {
 		try(InputStream in = CompilerTest.class.getResourceAsStream("/examples/" + name + ".txt")) {
 			if (in == null) {
 				throw new IllegalArgumentException("No such example <" + name + ">");
 			}
-			return new Scanner(in).useDelimiter("\\A").next();
+			String code = new Scanner(in, "UTF-8").useDelimiter("\\A").next();
+			return new String[]{name, code, expectedResult};
 		}
 	}
 
