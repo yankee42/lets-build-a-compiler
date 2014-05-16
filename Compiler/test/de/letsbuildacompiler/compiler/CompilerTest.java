@@ -171,6 +171,18 @@ public class CompilerTest {
 				
 				example("branch/if_int_false", "42" + System.lineSeparator()),
 				example("branch/if_int_true", "81" + System.lineSeparator()),
+				
+				{"lower than true", "println(1 < 2);", "1" + System.lineSeparator()},
+				{"lower than false", "println(2 < 2);", "0" + System.lineSeparator()},
+				
+				{"lower than or equal true", "println(2 <= 2);", "1" + System.lineSeparator()},
+				{"lower than or equal false", "println(3 <= 2);", "0" + System.lineSeparator()},
+				
+				{"greater than true", "println(3 > 2);", "1" + System.lineSeparator()},
+				{"greater than false", "println(2 > 2);", "0" + System.lineSeparator()},
+				
+				{"greater than or equal true", "println(2 >= 2);", "1" + System.lineSeparator()},
+				{"greater than or equal false", "println(1 >= 2);", "0" + System.lineSeparator()},
 		};
 	}
 	

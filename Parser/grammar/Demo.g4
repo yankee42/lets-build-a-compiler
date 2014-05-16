@@ -21,6 +21,7 @@ expression: left=expression '/' right=expression #Div
           | left=expression '*' right=expression #Mult
           | left=expression '-' right=expression #Minus
           | left=expression '+' right=expression #Plus
+          | left=expression operator=('<' | '<=' | '>' | '>=') right=expression #Relational
           | number=NUMBER #Number
           | varName=IDENTIFIER #Variable
           | functionCall #funcCallExpression

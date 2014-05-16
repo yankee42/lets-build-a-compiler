@@ -117,6 +117,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitPrintln(@NotNull DemoParser.PrintlnContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#Relational}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelational(@NotNull DemoParser.RelationalContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#MainStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
