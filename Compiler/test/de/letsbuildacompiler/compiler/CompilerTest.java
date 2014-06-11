@@ -183,6 +183,16 @@ public class CompilerTest {
 				
 				{"greater than or equal true", "println(2 >= 2);", "1" + System.lineSeparator()},
 				{"greater than or equal false", "println(1 >= 2);", "0" + System.lineSeparator()},
+				
+				{"and true", "println(1 && 1);", "1" + System.lineSeparator()},
+				{"and left false", "println(0 && 1);", "0" + System.lineSeparator()},
+				{"and right false", "println(1 && 0);", "0" + System.lineSeparator()},
+				example("operators/and-skip-right", "0" + System.lineSeparator() +  "0" + System.lineSeparator()),
+				
+				{"or false", "println(0 || 0);", "0" + System.lineSeparator()},
+				{"or left true", "println(1 || 0);", "1" + System.lineSeparator()},
+				{"or right true", "println(0 || 1);", "1" + System.lineSeparator()},
+				example("operators/or-skip-right", "1" + System.lineSeparator() +  "1" + System.lineSeparator())
 		};
 	}
 	

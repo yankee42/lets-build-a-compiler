@@ -138,6 +138,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitProgram(@NotNull DemoParser.ProgramContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#Or}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOr(@NotNull DemoParser.OrContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#branch}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -150,6 +157,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFuncCallExpression(@NotNull DemoParser.FuncCallExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#And}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd(@NotNull DemoParser.AndContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#varDeclaration}.

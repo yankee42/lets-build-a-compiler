@@ -10,6 +10,7 @@ import de.letsbuildacompiler.compiler.exceptions.UndeclaredVariableException;
 import de.letsbuildacompiler.compiler.exceptions.UndefinedFunctionException;
 import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 import de.letsbuildacompiler.parser.DemoBaseVisitor;
+import de.letsbuildacompiler.parser.DemoParser.AndContext;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.BranchContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
@@ -19,6 +20,7 @@ import de.letsbuildacompiler.parser.DemoParser.MainStatementContext;
 import de.letsbuildacompiler.parser.DemoParser.MinusContext;
 import de.letsbuildacompiler.parser.DemoParser.MultContext;
 import de.letsbuildacompiler.parser.DemoParser.NumberContext;
+import de.letsbuildacompiler.parser.DemoParser.OrContext;
 import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
 import de.letsbuildacompiler.parser.DemoParser.ProgramContext;
@@ -32,6 +34,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	private final FunctionList definedFunctions;
 	private int branchCounter = 0;
 	private int compareCount = 0;
+	private int andCounter = 0;
+	private int orCounter = 0;
 	
 	public MyVisitor(FunctionList definedFunctions) {
 		if (definedFunctions == null) {
@@ -99,6 +103,42 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				"onTrue" + compareNum + ":\n" + 
 				"ldc 1\n" + 
 				"onFalse" + compareNum + ":";
+	}
+	
+	@Override
+	public String visitAnd(AndContext ctx) {
+		String left = visit(ctx.left);
+		String right = visit(ctx.right);
+		int andNum = andCounter ;
+		++andCounter;
+		
+		return left + "\n" + 
+				"ifeq onAndFalse" + andNum + "\n" + 
+				right + "\n" + 
+				"ifeq onAndFalse" + andNum + "\n" + 
+				"ldc 1\n" + 
+				"goto andEnd" + andNum + "\n" + 
+				"onAndFalse" + andNum + ":\n" + 
+				"ldc 0\n" + 
+				"andEnd" + andNum + ":";
+	}
+	
+	@Override
+	public String visitOr(OrContext ctx) {
+		String left = visit(ctx.left);
+		String right = visit(ctx.right);
+		int orNum = orCounter ;
+		++orCounter ;
+		
+		return left + "\n" + 
+				"ifne onOrTrue" + orNum + "\n" + 
+				right + "\n" + 
+				"ifne onOrTrue" + orNum + "\n" + 
+				"ldc 0\n" + 
+				"goto orEnd" + orNum + "\n" + 
+				"onOrTrue" + orNum + ":\n" + 
+				"ldc 1\n" + 
+				"orEnd" + orNum + ":";
 	}
 	
 	@Override
