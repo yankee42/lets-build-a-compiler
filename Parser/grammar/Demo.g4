@@ -7,6 +7,7 @@ programPart: statement           #MainStatement
            ;
 
 statement: println ';'
+         | print ';'
          | varDeclaration ';'
          | assignment ';'
          | branch
@@ -25,6 +26,7 @@ expression: left=expression '/' right=expression #Div
           | left=expression '&&' right=expression #And
           | left=expression '||' right=expression #Or
           | number=NUMBER #Number
+          | txt=STRING #String
           | varName=IDENTIFIER #Variable
           | functionCall #funcCallExpression
           ;
@@ -34,6 +36,8 @@ varDeclaration: 'int' varName=IDENTIFIER ;
 assignment: varName=IDENTIFIER '=' expr=expression;
 
 println: 'println(' argument=expression ')' ;
+
+print: 'print(' argument=expression ')' ;
 
 functionDefinition: 'int' funcName=IDENTIFIER '(' params=parameterDeclaration ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
 
@@ -52,3 +56,4 @@ expressionList: expressions+=expression (',' expressions+=expression)*
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
 NUMBER: [0-9]+;
 WHITESPACE: [ \t\n\r]+ -> skip;
+STRING: '"' .*? '"' ;

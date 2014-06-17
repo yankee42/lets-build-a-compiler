@@ -12,6 +12,62 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#ProgPartFunctionDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgPartFunctionDefinition(@NotNull DemoParser.ProgPartFunctionDefinitionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#expressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionList(@NotNull DemoParser.ExpressionListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#parameterDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterDeclaration(@NotNull DemoParser.ParameterDeclarationContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(@NotNull DemoParser.BlockContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(@NotNull DemoParser.FunctionCallContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#MainStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMainStatement(@NotNull DemoParser.MainStatementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#println}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintln(@NotNull DemoParser.PrintlnContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#Mult}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -40,20 +96,6 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVariable(@NotNull DemoParser.VariableContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#ProgPartFunctionDefinition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitProgPartFunctionDefinition(@NotNull DemoParser.ProgPartFunctionDefinitionContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link DemoParser#expressionList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionList(@NotNull DemoParser.ExpressionListContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link DemoParser#Number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -61,25 +103,11 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitNumber(@NotNull DemoParser.NumberContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#parameterDeclaration}.
+	 * Visit a parse tree produced by {@link DemoParser#print}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParameterDeclaration(@NotNull DemoParser.ParameterDeclarationContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link DemoParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlock(@NotNull DemoParser.BlockContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link DemoParser#statementList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatementList(@NotNull DemoParser.StatementListContext ctx);
+	T visitPrint(@NotNull DemoParser.PrintContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#statement}.
@@ -89,11 +117,11 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitStatement(@NotNull DemoParser.StatementContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#functionCall}.
+	 * Visit a parse tree produced by {@link DemoParser#statementList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunctionCall(@NotNull DemoParser.FunctionCallContext ctx);
+	T visitStatementList(@NotNull DemoParser.StatementListContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#assignment}.
@@ -110,13 +138,6 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFunctionDefinition(@NotNull DemoParser.FunctionDefinitionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#println}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrintln(@NotNull DemoParser.PrintlnContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link DemoParser#Relational}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,11 +145,11 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitRelational(@NotNull DemoParser.RelationalContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link DemoParser#MainStatement}.
+	 * Visit a parse tree produced by {@link DemoParser#String}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMainStatement(@NotNull DemoParser.MainStatementContext ctx);
+	T visitString(@NotNull DemoParser.StringContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#program}.
@@ -164,13 +185,6 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAnd(@NotNull DemoParser.AndContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link DemoParser#varDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVarDeclaration(@NotNull DemoParser.VarDeclarationContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#Div}.

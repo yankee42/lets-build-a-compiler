@@ -192,7 +192,11 @@ public class CompilerTest {
 				{"or false", "println(0 || 0);", "0" + System.lineSeparator()},
 				{"or left true", "println(1 || 0);", "1" + System.lineSeparator()},
 				{"or right true", "println(0 || 1);", "1" + System.lineSeparator()},
-				example("operators/or-skip-right", "1" + System.lineSeparator() +  "1" + System.lineSeparator())
+				example("operators/or-skip-right", "1" + System.lineSeparator() +  "1" + System.lineSeparator()),
+				
+				{"print", "print(42);", "42"},
+				
+				{"print string literal", "print(\"hello world\");", "hello world"},
 		};
 	}
 	
