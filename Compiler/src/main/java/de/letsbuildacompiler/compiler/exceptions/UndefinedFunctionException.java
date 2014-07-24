@@ -3,7 +3,12 @@ package de.letsbuildacompiler.compiler.exceptions;
 import org.antlr.v4.runtime.Token;
 
 public class UndefinedFunctionException extends CompileException {
-	private final String functionName;
+	/**
+   * serial version UID
+   */
+  private static final long serialVersionUID = 5759798713605277164L;
+
+  private final String functionName;
 	
 	public UndefinedFunctionException(Token functionNameToken) {
 		super(functionNameToken);

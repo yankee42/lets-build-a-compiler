@@ -4,7 +4,12 @@ import org.antlr.v4.runtime.Token;
 
 public class FunctionAlreadyDefinedException extends CompileException {
 
-	private final String functionName;
+	/**
+   * serial version UID
+   */
+  private static final long serialVersionUID = -2390502770466839465L;
+
+  private final String functionName;
 	
 	public FunctionAlreadyDefinedException(Token functionNameToken) {
 		super(functionNameToken);
