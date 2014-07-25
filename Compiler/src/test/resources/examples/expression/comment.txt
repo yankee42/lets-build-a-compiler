@@ -1,0 +1,5 @@
+// this comment is entirely ignored
+int g;
+/* this one too */
+g = 7;
+print (g);
