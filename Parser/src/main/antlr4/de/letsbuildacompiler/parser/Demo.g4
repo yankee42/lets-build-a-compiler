@@ -18,26 +18,27 @@ branch: 'if' '(' condition=expression ')' onTrue=block 'else' onFalse=block
 
 block: '{' statement* '}' ;
 
-expression: left=expression '/' right=expression #Div
-          | left=expression '*' right=expression #Mult
-          | left=expression '-' right=expression #Minus
-          | left=expression '+' right=expression #Plus
+expression: '(' left=expression ')'               #Composite
+          | left=expression '/' right=expression  #Div
+          | left=expression '*' right=expression  #Mult
+          | left=expression '-' right=expression  #Minus
+          | left=expression '+' right=expression  #Plus
           | left=expression operator=('<' | '<=' | '>' | '>=') right=expression #Relational
           | left=expression '&&' right=expression #And
           | left=expression '||' right=expression #Or
-          | number=NUMBER #Number
-          | txt=STRING #String
-          | varName=IDENTIFIER #Variable
-          | functionCall #funcCallExpression
+          | number=NUMBER                         #Number
+          | txt=STRING                            #String
+          | varName=IDENTIFIER                    #Variable
+          | functionCall                          #funcCallExpression
           ;
 
 varDeclaration: 'int' varName=IDENTIFIER ;
 
-assignment: varName=IDENTIFIER '=' expr=expression;
+assignment: varName=IDENTIFIER '=' expr=expression ;
 
-println: 'println(' argument=expression ')' ;
+println: 'println' + '(' argument=expression ')' ;
 
-print: 'print(' argument=expression ')' ;
+print: 'print' +'(' argument=expression ')' ;
 
 functionDefinition: 'int' funcName=IDENTIFIER '(' params=parameterDeclaration ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
 
@@ -53,14 +54,14 @@ expressionList: expressions+=expression (',' expressions+=expression)*
               |
               ;
 
-comment : COMMENT ;
+BlockComment: '/*' .*? '*/' -> skip ;
 
-COMMENT: '/*' .*? '*/' ;
+LineComment: '//' ~[\r\n]* -> skip ;
 
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
 
 NUMBER: [0-9]+ ;
 
-WHITESPACE: [ \t\n\r]+ -> skip;
+WHITESPACE: [ \t\n\r]+ -> skip ;
 
 STRING: '"' .*? '"' ;

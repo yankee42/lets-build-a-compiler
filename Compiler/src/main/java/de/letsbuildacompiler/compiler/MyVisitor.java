@@ -13,6 +13,7 @@ import de.letsbuildacompiler.parser.DemoBaseVisitor;
 import de.letsbuildacompiler.parser.DemoParser.AndContext;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.BranchContext;
+import de.letsbuildacompiler.parser.DemoParser.CompositeContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
@@ -160,7 +161,17 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				"ldc 0\n" + 
 				"andEnd" + andNum + ":";
 	}
-	
+
+  @Override
+  public String visitComposite(CompositeContext ctx) {
+    String instructions = visit(ctx.left);
+
+    jvmStack.pop();
+    jvmStack.push(DataType.INT);
+
+    return instructions;
+  }
+
 	@Override
 	public String visitOr(OrContext ctx) {
 		String left = visit(ctx.left);
@@ -188,7 +199,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		jvmStack.push(DataType.INT);
 		return "ldc " + ctx.number.getText();
 	}
-	
+
 	@Override
 	public String visitString(StringContext ctx) {
 		jvmStack.push(DataType.STRING);
@@ -235,8 +246,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		jvmStack.push(DataType.INT);
 		return "iload " + requireVariableIndex(ctx.varName);
 	}
-	
-	@Override
+
+  @Override
 	public String visitFunctionCall(FunctionCallContext ctx) {
 		int numberOfParameters = ctx.arguments.expressions.size();
 		if (!definedFunctions.contains(ctx.funcName.getText(), numberOfParameters)) {
@@ -312,7 +323,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		"  \n" + 
 		".end method";
 	}
-	
+
 	private int requireVariableIndex(Token varNameToken) {
 		Integer varIndex = variables.get(varNameToken.getText());
 		if (varIndex == null) {

@@ -195,11 +195,14 @@ public class CompilerTest {
 				example("operators/or-skip-right", "1" + System.lineSeparator() +  "1" + System.lineSeparator()),
 				
 				{"print", "print(42);", "42"},
-				
+
 				{"print string literal", "print(\"hello world\");", "hello world"},
+
+				example("expression/composite", "72"),
+        example("expression/comment", "7"),
 		};
 	}
-	
+
 	private static String[] example(String name, String expectedResult) throws Exception {
 		try(InputStream in = CompilerTest.class.getResourceAsStream("/examples/" + name + ".txt")) {
 			if (in == null) {
