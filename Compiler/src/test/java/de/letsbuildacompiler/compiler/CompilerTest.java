@@ -208,7 +208,10 @@ public class CompilerTest {
 			if (in == null) {
 				throw new IllegalArgumentException("No such example <" + name + ">");
 			}
-			String code = new Scanner(in, "UTF-8").useDelimiter("\\A").next();
+			String code = "";
+			try (Scanner scanner = new Scanner(in, "UTF-8")) {
+			  code = scanner.useDelimiter("\\A").next();
+			}
 			return new String[]{name, code, expectedResult};
 		}
 	}
