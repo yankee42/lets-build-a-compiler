@@ -309,10 +309,6 @@ public class MyVisitor extends DemoBaseVisitor<String> {
     }
   }
 
-  private void removeVariable(final String varName) {
-    variables.remove(varName);
-  }
-
   @Override
   public String visitBranch(final BranchContext ctx) {
     String conditionInstructions = visit(ctx.condition);
