@@ -1,0 +1,14 @@
+float f () {
+  float i;
+  i = 0F;
+
+  float j;
+  j = 1F;
+
+  float k;
+  k = -6.5F;
+
+  return i + j + k;
+}
+
+print (f () * 2.0F);

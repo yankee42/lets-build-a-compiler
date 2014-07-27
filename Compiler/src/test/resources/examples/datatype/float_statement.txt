@@ -1,0 +1,10 @@
+float f () {
+  float a;
+  a = 30.0F / 3.0F;
+  float b;
+  b =  0.25F;
+
+  return a + b;
+}
+
+print (f ());

@@ -1,0 +1,6 @@
+int x (int i) {
+  print (i);
+  return i;
+}
+
+print (x (1) || x (0));

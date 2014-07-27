@@ -1,0 +1,49 @@
+<project
+  xmlns='http://maven.apache.org/POM/4.0.0'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xsi:schemaLocation='http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/maven-v4_0_0.xsd'>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.letsbuildacompiler</groupId>
+    <artifactId>Parent</artifactId>
+    <version>0.0.22</version>
+  </parent>
+
+  <artifactId>Compiler</artifactId>
+  <packaging>jar</packaging>
+  <name>Compiler</name>
+  <url>http://letsbuildacompiler.de</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.letsbuildacompiler</groupId>
+      <artifactId>Parser</artifactId>
+      <version>0.0.22</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.8.8</version>
+    </dependency>
+
+    <!--
+    <dependency>
+      <groupId>org.ow2.asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>5.0.3</version>
+    </dependency>
+    -->
+
+    <dependency>
+      <groupId>org.group.project</groupId>
+      <artifactId>Project</artifactId>
+      <version>2.4.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/jasmin.jar</systemPath>
+    </dependency>
+  </dependencies>
+</project>

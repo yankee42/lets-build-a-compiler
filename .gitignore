@@ -1,6 +1,8 @@
+.metadata
+*.tokens
 bin/
 test-output/
 /RemoteSystemsTempFiles
 /Servers
-.metadata
-*.tokens
+**/target
+Parser/src/main/java/*

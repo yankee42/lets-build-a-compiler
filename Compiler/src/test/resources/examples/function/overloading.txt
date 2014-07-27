@@ -1,0 +1,10 @@
+int x () {
+  return 0;
+}
+
+int x (int a) {
+  return a;
+}
+
+print (x ());
+print (x (42));

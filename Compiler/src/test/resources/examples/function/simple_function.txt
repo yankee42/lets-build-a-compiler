@@ -1,0 +1,7 @@
+int randomNumber () {
+  int i;
+  i = 4;
+  return i;
+}
+
+print (randomNumber ());

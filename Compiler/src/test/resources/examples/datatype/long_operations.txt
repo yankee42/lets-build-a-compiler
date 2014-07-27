@@ -1,0 +1,14 @@
+long l () {
+  long i;
+  i = 0L;
+
+  long j;
+  j = 1L;
+
+  long k;
+  k = -21L;
+
+  return i + j + k;
+}
+
+print ((l () * 5L) / -50L);
