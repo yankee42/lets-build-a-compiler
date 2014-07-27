@@ -1,0 +1,10 @@
+long x () {
+  long a;
+  a = 1234567890000000000L;
+  long b;
+  b = 123456789L;
+
+  return a + b;
+}
+
+print (x ());

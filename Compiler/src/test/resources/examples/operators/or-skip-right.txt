@@ -1,5 +1,6 @@
-int x(int i) {
-  println(i);
+int x (int i) {
+  print (i);
   return i;
 }
-println(x(1) || x(0));
+
+print (x (1) || x (0));

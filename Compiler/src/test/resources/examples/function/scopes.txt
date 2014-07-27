@@ -1,9 +1,11 @@
-int randomNumber() {
+int randomNumber () {
   int i;
   i = 4;
   return i;
 }
+
 int i;
+
 i = 42;
-println(randomNumber());
-println(i);
+print (randomNumber ());
+print (i);

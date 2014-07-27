@@ -2,66 +2,96 @@ grammar Demo;
 
 program: programPart+ ;
 
-programPart: statement           #MainStatement
-           | functionDefinition  #ProgPartFunctionDefinition
-           ;
+programPart:
+    statement           #MainStatement
+  | functionDefinition  #ProgPartFunctionDefinition
+  ;
 
-statement: println ';'
-         | print ';'
-         | varDeclaration ';'
-         | assignment ';'
-         | branch
-         ;
+statement:
+    println ';'
+  | print ';'
+  | varDeclaration ';'
+  | assignment ';'
+  | branch
+  ;
 
-branch: 'if' '(' condition=expression ')' onTrue=block 'else' onFalse=block
-      ;
+branch:
+    'if' '(' condition=expression ')' onTrue=block
+    'else' onFalse=block ;
 
-block: '{' statement* '}' ;
+block:
+    '{' statement* '}' ;
 
-expression: '(' left=expression ')'               #Composite
-          | left=expression '/' right=expression  #Div
-          | left=expression '*' right=expression  #Mult
-          | left=expression '-' right=expression  #Minus
-          | left=expression '+' right=expression  #Plus
-          | left=expression operator=('<' | '<=' | '>' | '>=') right=expression #Relational
-          | left=expression '&&' right=expression #And
-          | left=expression '||' right=expression #Or
-          | number=NUMBER                         #Number
-          | txt=STRING                            #String
-          | varName=IDENTIFIER                    #Variable
-          | functionCall                          #funcCallExpression
-          ;
+expression:
+    '(' left=expression ')'                #Composite
+  | left=expression '/' right=expression   #Div
+  | left=expression '*' right=expression   #Mult
+  | left=expression '-' right=expression   #Minus
+  | left=expression '+' right=expression   #Plus
+  | left=expression operator=('<' | '<=' | '>' | '>=') right=expression #Relational
+  | left=expression '&&' right=expression  #And
+  | left=expression '||' right=expression  #Or
+  | integer=INTEGER                        #Int
+  | longInteger=LONG_INTEGER               #Long
+  | floatNumber=FLOAT_NUMBER               #Float
+  | doubleNumber=DOUBLE_NUMBER             #Double
+  | txt=STRING                             #String
+  | varName=IDENTIFIER                     #Variable
+  | functionCall                           #funcCallExpression
+  ;
 
-varDeclaration: 'int' varName=IDENTIFIER ;
+typeScalar:
+  //'bool' | 'byte' | 'char' | 'short' |
+    'int' | 'long' | 'float' | 'double' | 'string' ;
 
-assignment: varName=IDENTIFIER '=' expr=expression ;
+varDeclaration:
+    type=typeScalar varName=IDENTIFIER ;
 
-println: 'println' + '(' argument=expression ')' ;
+assignment:
+    varName=IDENTIFIER '=' expr=expression ;
 
-print: 'print' +'(' argument=expression ')' ;
+println:
+    'println' + '(' argument=expression ')' ;
 
-functionDefinition: 'int' funcName=IDENTIFIER '(' params=parameterDeclaration ')' '{' statements=statementList 'return' returnValue=expression ';' '}' ;
+print:
+    'print' +'(' argument=expression ')' ;
 
-parameterDeclaration: declarations+=varDeclaration (',' declarations+=varDeclaration)*
-                    |
-                    ;
+functionDefinition:
+    returnType=typeScalar
+    funcName=IDENTIFIER '(' params=parameterDeclaration ')' '{'
+        statements=statementList
+        'return' returnValue=expression ';'
+    '}' ;
 
-statementList: statement* ;
+parameterDeclaration:
+    declarations+=varDeclaration (',' declarations+=varDeclaration)*
+  |
+  ;
 
-functionCall: funcName=IDENTIFIER '(' arguments=expressionList ')' ;
+statementList:
+    statement* ;
 
-expressionList: expressions+=expression (',' expressions+=expression)*
-              |
-              ;
+functionCall:
+    funcName=IDENTIFIER '(' arguments=expressionList ')' ;
 
-BlockComment: '/*' .*? '*/' -> skip ;
+expressionList:
+    expressions+=expression (',' expressions+=expression)*
+  |
+  ;
 
-LineComment: '//' ~[\r\n]* -> skip ;
+BLOCK_COMMENT  : '/*' .*? '*/' -> skip ;
 
-IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
+LINE_COMMENT   : '//' ~[\r\n]* -> skip ;
 
-NUMBER: [0-9]+ ;
+IDENTIFIER     : [a-zA-Z][a-zA-Z0-9]* ;
 
-WHITESPACE: [ \t\n\r]+ -> skip ;
+INTEGER        : '-'? [0-9]+ ;
+LONG_INTEGER   : INTEGER 'L' ;
+FLOAT_NUMBER   : INTEGER ('.' INTEGER)? 'F' ;
+DOUBLE_NUMBER  : INTEGER ('.' INTEGER)? 'D' ;
 
-STRING: '"' .*? '"' ;
+NUMBER         : INTEGER | LONG_INTEGER | FLOAT_NUMBER | DOUBLE_NUMBER ;
+
+WHITESPACE     : [ \t\n\r]+ -> skip ;
+
+STRING         : '"' .*? '"' ;

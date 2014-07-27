@@ -1,0 +1,14 @@
+double d () {
+  double i;
+  i = 0D;
+
+  double j;
+  j = 1D;
+
+  double k;
+  k = -17.0D;
+
+  return i + j + k;
+}
+
+print (d () / 4.0D);

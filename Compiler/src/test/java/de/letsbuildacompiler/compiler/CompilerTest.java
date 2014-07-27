@@ -24,213 +24,180 @@ import de.letsbuildacompiler.compiler.exceptions.UndefinedFunctionException;
 import de.letsbuildacompiler.compiler.exceptions.VariableAlreadyDefinedException;
 
 public class CompilerTest {
-	private Path tempDir;
-	
-	@BeforeMethod
-	public void createTempDir() throws IOException {
-		tempDir = Files.createTempDirectory("compilerTest");
-	}
-	
-	@AfterMethod
-	public void deleteTempDir() {
-		deleteRecursive(tempDir.toFile());
-	}
-	
-	private void deleteRecursive(File file) {
-		if (file.isDirectory()) {
-			for(File child : file.listFiles()) {
-				deleteRecursive(child);
-			}
-		}
-		if (!file.delete()) {
-			throw new Error("Could not delete file <" + file + ">");
-		}
-	}
+  private Path tempDir;
 
-	@Test(dataProvider = "provide_code_expectedText")
-	public void runningCode_outputsExpectedText(
-			String description,
-			String code,
-			String expectedText) throws Exception {
-		// execution
-		String actualOutput = compileAndRun(code);
-		
-		// evaluation
-		Assert.assertEquals(actualOutput, expectedText);
-	}
-	
-	@Test(expectedExceptions = UndeclaredVariableException.class,
-			expectedExceptionsMessageRegExp = "1:8 undeclared variable <x>")
-	public void compilingCode_throwsUndeclaredVariableException_ifReadingUndefinedVariable() throws Exception {
-		// execution
-		compileAndRun("println(x);");
-		
-		// evaluation performed by expected exception
-	}
-	
-	@Test(expectedExceptions = UndeclaredVariableException.class,
-			expectedExceptionsMessageRegExp = "1:0 undeclared variable <x>")
-	public void compilingCode_throwsUndeclaredVariableException_ifWritingUndefinedVariable() throws Exception {
-		// execution
-		compileAndRun("x = 5;");
-		
-		// evaluation performed by expected exception
-	}
-	
-	@Test(expectedExceptions = VariableAlreadyDefinedException.class,
-			expectedExceptionsMessageRegExp = "2:4 variable already defined: <x>")
-	public void compilingCode_throwsVariableAlreadyDefinedException_whenDefiningAlreadyDefinedVariable() throws Exception {
-		// execution
-		compileAndRun("int x;" + System.lineSeparator() +
-		              "int x;");
-		
-		// evaluation performed by expected exception
-	}
-	
-	@Test(expectedExceptions = UndefinedFunctionException.class,
-			expectedExceptionsMessageRegExp = "1:8 call to undefined function: <someUndefinedFunction>")
-	public void compilingCode_throwsUndefinedFunctionException_whenCallingUndefinedFunction() throws Exception {
-		// execution
-		compileAndRun("println(someUndefinedFunction());");
-		
-		// evaluation performed by expected exception
-	}
-	
-	@Test(expectedExceptions = FunctionAlreadyDefinedException.class,
-			expectedExceptionsMessageRegExp = "2:4 function already defined: <x>")
-	public void compilingCode_throwsFunctionAlreadyDefinedException_whenDefiningFunctionTwice() throws Exception {
-		// execution
-		compileAndRun("int x() { return 42; }\n" +
-					  "int x() { return 42; }");
-		
-		// evaluation performed by expected exception
-	}
-	
-	@DataProvider
-	public Object[][] provide_code_expectedText() throws Exception {
-		return new Object[][]{
-				{"plus",
-					"println(1+2);", "3" + System.lineSeparator()},
-					
-				{"chained plus",
-						"println(1+2+42);", "45" + System.lineSeparator()},
-						
-				{"multiple statements",
-							"println(1); println(2);",
-					"1" + System.lineSeparator() +
-					"2" + System.lineSeparator()},
-					
-				{"minus",
-						"println(3-2);", "1" + System.lineSeparator()},
-						
-				{"times",
-						"println(2*3);", "6" + System.lineSeparator()},
-							
-				{"divide",
-						"println(6/2);", "3" + System.lineSeparator()},
-						
-				{"divide and truncate",
-						"println(7/2);", "3" + System.lineSeparator()},
-						
-				{"precedence times and divide",
-						"println(8/2*4);", "16" + System.lineSeparator()},
-				
-				{"precedence plus and times",
-						"println(2+3*3);", "11" + System.lineSeparator()},
-						
-				{"precedence minus and times",
-						"println(9-2*3);", "3" + System.lineSeparator()},
-						
-				{"precedence minus and plus",
-						"println(8-2+5);", "11" + System.lineSeparator()},
-				
-				{"int variable",
-						"int foo; foo = 42; println(foo);", "42" + System.lineSeparator()},
-						
-				{"add var and constant parameter",
-						"int foo; foo = 42; println(foo+2);", "44" + System.lineSeparator()},
-							
-				{"add two vars parameter",
-						"int a; int b; a = 2; b = 5; println(a+b);", "7" + System.lineSeparator()},
-				
-				{"return only function",
-						"int randomNumber() { return 4; } println(randomNumber());", "4" + System.lineSeparator()},
-				
-				example("function/simple_function", "4" + System.lineSeparator()),
-						
-				example("function/scopes",
-							"4" + System.lineSeparator() +
-							"42" + System.lineSeparator()),
-							
-				example("function/int_parameters",
-						"13" + System.lineSeparator()),
-				
-				example("function/overloading",
-						"0" + System.lineSeparator() +
-						"42" + System.lineSeparator()),
-				
-				example("branch/if_int_false", "42" + System.lineSeparator()),
-				example("branch/if_int_true", "81" + System.lineSeparator()),
-				
-				{"lower than true", "println(1 < 2);", "1" + System.lineSeparator()},
-				{"lower than false", "println(2 < 2);", "0" + System.lineSeparator()},
-				
-				{"lower than or equal true", "println(2 <= 2);", "1" + System.lineSeparator()},
-				{"lower than or equal false", "println(3 <= 2);", "0" + System.lineSeparator()},
-				
-				{"greater than true", "println(3 > 2);", "1" + System.lineSeparator()},
-				{"greater than false", "println(2 > 2);", "0" + System.lineSeparator()},
-				
-				{"greater than or equal true", "println(2 >= 2);", "1" + System.lineSeparator()},
-				{"greater than or equal false", "println(1 >= 2);", "0" + System.lineSeparator()},
-				
-				{"and true", "println(1 && 1);", "1" + System.lineSeparator()},
-				{"and left false", "println(0 && 1);", "0" + System.lineSeparator()},
-				{"and right false", "println(1 && 0);", "0" + System.lineSeparator()},
-				example("operators/and-skip-right", "0" + System.lineSeparator() +  "0" + System.lineSeparator()),
-				
-				{"or false", "println(0 || 0);", "0" + System.lineSeparator()},
-				{"or left true", "println(1 || 0);", "1" + System.lineSeparator()},
-				{"or right true", "println(0 || 1);", "1" + System.lineSeparator()},
-				example("operators/or-skip-right", "1" + System.lineSeparator() +  "1" + System.lineSeparator()),
-				
-				{"print", "print(42);", "42"},
+  @BeforeMethod
+  public void createTempDir() throws IOException {
+    tempDir = Files.createTempDirectory("compilerTest");
+  }
 
-				{"print string literal", "print(\"hello world\");", "hello world"},
+  @AfterMethod
+  public void deleteTempDir() {
+    deleteRecursive(tempDir.toFile());
+  }
 
-				example("expression/composite", "72"),
+  private void deleteRecursive(File file) {
+    if (file.isDirectory()) {
+      for (File child : file.listFiles()) {
+        deleteRecursive(child);
+      }
+    }
+
+    if (!file.delete()) {
+      throw new Error("Could not delete file <" + file + '>');
+    }
+  }
+
+  @Test(dataProvider = "provide_code_expectedText")
+  public void runningCode_outputsExpectedText(String description, String code,
+      String expectedText) throws Exception {
+    // execution
+    String actualOutput = compileAndRun(code);
+
+    // evaluation
+    Assert.assertEquals(actualOutput, expectedText);
+  }
+
+  @Test(expectedExceptions = UndeclaredVariableException.class, expectedExceptionsMessageRegExp = "1:7 undeclared variable <x>")
+  public void compilingCode_throwsUndeclaredVariableException_ifReadingUndefinedVariable()
+      throws Exception {
+    // execution
+    compileAndRun("print (x);");
+
+    // evaluation performed by expected exception
+  }
+
+  @Test(expectedExceptions = UndeclaredVariableException.class, expectedExceptionsMessageRegExp = "1:0 undeclared variable <x>")
+  public void compilingCode_throwsUndeclaredVariableException_ifWritingUndefinedVariable()
+      throws Exception {
+    // execution
+    compileAndRun("x = 5;");
+
+    // evaluation performed by expected exception
+  }
+
+  @Test(expectedExceptions = VariableAlreadyDefinedException.class, expectedExceptionsMessageRegExp = "2:4 variable already defined: <x>")
+  public void compilingCode_throwsVariableAlreadyDefinedException_whenDefiningAlreadyDefinedVariable()
+      throws Exception {
+    // execution
+    compileAndRun("int x;" + System.lineSeparator() + "int x;");
+
+    // evaluation performed by expected exception
+  }
+
+  @Test(expectedExceptions = UndefinedFunctionException.class, expectedExceptionsMessageRegExp = "1:7 call to undefined function: <someUndefinedFunction>")
+  public void compilingCode_throwsUndefinedFunctionException_whenCallingUndefinedFunction()
+      throws Exception {
+    // execution
+    compileAndRun("print (someUndefinedFunction ());");
+
+    // evaluation performed by expected exception
+  }
+
+  @Test(expectedExceptions = FunctionAlreadyDefinedException.class, expectedExceptionsMessageRegExp = "2:4 function already defined: <x>")
+  public void compilingCode_throwsFunctionAlreadyDefinedException_whenDefiningFunctionTwice()
+      throws Exception {
+    // execution
+    compileAndRun("int x () { return 42; }" + System.lineSeparator()
+        + "int x () { return 42; }");
+
+    // evaluation performed by expected exception
+  }
+
+  @DataProvider
+  public Object[][] provide_code_expectedText() throws Exception {
+    return new Object[][] {
+        { "plus", "print (1 + 2);", "3" },
+        { "chained plus", "print (1 + 2 + 42);", "45" },
+        { "multiple statements", "print (1); print (2);", "12" },
+        { "minus", "print (3 - 2);", "1" },
+        { "times", "print (2 * 3);", "6" },
+        { "divide", "print (6 / 2);", "3" },
+        { "divide and truncate", "print (7 / 2);", "3" },
+        { "precedence times and divide", "print (8 / 2 * 4);", "16" },
+        { "precedence plus and times", "print (2 + 3 * 3);", "11" },
+        { "precedence minus and times", "print (9 - 2 * 3);", "3" },
+        { "precedence minus and plus", "print (8 - 2 + 5);", "11" },
+        { "int variable", "int foo; foo = 42; print (foo);", "42" },
+        { "add var and constant parameter",
+            "int foo; foo = 42; print (foo + 2);", "44" },
+        { "add two vars parameter",
+            "int a; int b; a = 2; b = 5; print (a + b);", "7" },
+        { "return only function",
+            "int randomNumber () { return 4; } print (randomNumber ());", "4" },
+        example("function/simple_function", "4"),
+        example("function/scopes", "4" + "42"),
+        example("function/int_parameters", "13"),
+        example("function/overloading", "0" + "42"),
+        example("branch/if_int_false", "42"),
+        example("branch/if_int_true", "81"),
+        { "lower than true", "print (1 < 2);", "1" },
+        { "lower than false", "print (2 < 2);", "0" },
+        { "lower than or equal true", "print (2 <= 2);", "1" },
+        { "lower than or equal false", "print (3 <= 2);", "0" },
+        { "greater than true", "print (3 > 2);", "1" },
+        { "greater than false", "print (2 > 2);", "0" },
+        { "greater than or equal true", "print (2 >= 2);", "1" },
+        { "greater than or equal false", "print (1 >= 2);", "0" },
+        { "and true", "print (1 && 1);", "1" },
+        { "and left false", "print (0 && 1);", "0" },
+        { "and right false", "print (1 && 0);", "0" },
+        { "or false", "print (0 || 0);", "0" },
+        { "or left true", "print (1 || 0);", "1" },
+        { "or right true", "print (0 || 1);", "1" },
+        example("operators/and-skip-right", "0" + "0"),
+        example("operators/or-skip-right", "1" + "1"),
+        { "print", "print (42);", "42" },
+        { "print string literal", "print (\"hello world\");", "hello world" },
+        example("expression/composite", "72"),
         example("expression/comment", "7"),
-		};
-	}
 
-	private static String[] example(String name, String expectedResult) throws Exception {
-		try(InputStream in = CompilerTest.class.getResourceAsStream("/examples/" + name + ".txt")) {
-			if (in == null) {
-				throw new IllegalArgumentException("No such example <" + name + ">");
-			}
-			String code = "";
-			try (Scanner scanner = new Scanner(in, "UTF-8")) {
-			  code = scanner.useDelimiter("\\A").next();
-			}
-			return new String[]{name, code, expectedResult};
-		}
-	}
+        example("datatype/int_operations", "-9112"),
+        example("datatype/long_statement", "1234567890123456789"),
+        example("datatype/long_operations", "2"),
+        example("datatype/float_statement", "10.25"),
+        example("datatype/float_operations", "-11.0"),
+        example("datatype/double_statement", "100.75"),
+        example("datatype/double_operations", "-4.0"),
+    };
+  }
 
-	private String compileAndRun(String code) throws Exception {
-		code = Main.compile(new ANTLRInputStream(code));
-		ClassFile classFile = new ClassFile();
-		classFile.readJasmin(new StringReader(code), "", false);
-		Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
-		try(OutputStream output = Files.newOutputStream(outputPath)) {
-			classFile.write(output);
-		}
-		return runJavaClass(tempDir, classFile.getClassName());
-	}
+  private static String[] example(final String name, final String expectedResult)
+      throws Exception {
+    try (InputStream in = CompilerTest.class.getResourceAsStream("/examples/" + name + ".txt")) {
+      if (in == null) {
+        throw new IllegalArgumentException("No such example <" + name + '>');
+      }
 
-	private String runJavaClass(Path dir, String className) throws Exception {
-		Process process = Runtime.getRuntime().exec(new String[]{"java", "-cp", dir.toString(), className});
-		try(InputStream in = process.getInputStream()) {
-			return new Scanner(in).useDelimiter("\\A").next();
-		}
-	}
+      String code = "";
+
+      try (Scanner scanner = new Scanner(in, "UTF-8")) {
+        code = scanner.useDelimiter("\\A").next();
+      }
+
+      return new String[] { name, code, expectedResult };
+    }
+  }
+
+  private String compileAndRun(final String code) throws Exception {
+    String jasminCode = Main.compile(new ANTLRInputStream(code));
+    //System.out.println(jasminCode);
+    ClassFile classFile = new ClassFile();
+    classFile.readJasmin(new StringReader(jasminCode), "", false);
+    Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
+
+    try (OutputStream output = Files.newOutputStream(outputPath)) {
+      classFile.write(output);
+    }
+
+    return runJavaClass(tempDir, classFile.getClassName());
+  }
+
+  private String runJavaClass(Path dir, String className) throws Exception {
+    Process process = Runtime.getRuntime().exec(
+        new String[] { "java", "-cp", dir.toString(), className });
+    try (InputStream in = process.getInputStream()) {
+      return new Scanner(in).useDelimiter("\\A").next();
+    }
+  }
 }

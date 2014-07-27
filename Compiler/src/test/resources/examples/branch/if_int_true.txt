@@ -1,5 +1,5 @@
 if (1) {
-  println(81);
+  print (81);
 } else {
-  println(42);
+  print (42);
 }

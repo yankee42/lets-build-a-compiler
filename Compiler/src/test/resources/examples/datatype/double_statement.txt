@@ -1,0 +1,10 @@
+double d () {
+  double a;
+  a = 50.0D * 2.0D;
+  double b;
+  b =   0.75D;
+
+  return a + b;
+}
+
+print (d ());
